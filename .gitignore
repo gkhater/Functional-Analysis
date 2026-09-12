@@ -4,4 +4,9 @@
 /notes.out
 /notes.synctex.gz
 /notes.toc
+/notes.fdb_latexmk
+/notes.fls
+/notes.xdv
 /out
+*.log
+xelatex-check.log

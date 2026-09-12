@@ -553,7 +553,7 @@ Some properties of metric spaces.
     $$\abs{z_i - x_i} \le d_\infty(z,x) < \varepsilon$$
     i.e. $z_i \ne 0$ and $z_i \ne 1$ so $z \in A^c$. 
 
-    Now $A$ is not compact. Take $\mathcal_{G} = \set{B(x,1/2)}_{x \in A}$, now $B(x,1/2) \cap A = \set{x}$ but $A$ is infinite (uncountable even), then $\mathcal{G}$ does not have a finite subcover. 
+    Now $A$ is not compact. Take $\mathcal{G} = \set{B(x,1/2)}_{x \in A}$, now $B(x,1/2) \cap A = \set{x}$ but $A$ is infinite (uncountable even), then $\mathcal{G}$ does not have a finite subcover. 
 \end{example}
 
 \begin{definition}
@@ -617,7 +617,7 @@ Some properties of metric spaces.
         Now take $\mathcal{G} = \set{B(x, \varepsilon_x)}_{x \in K}$, this is an open cover of $K$ so it has a finite subcover. We get 
         $$K \subseteq B(x_1, \varepsilon_{x_1}) \cup \cdots \cup B(x_N, \varepsilon_{x_N})$$
         But $E \subseteq K$ so 
-        $$E = E \cap K \subseteq \bigcup_{i=1}^N  E \cap B(x_1, \varepsilon_{x_i}) \subseteteq \set{x_1, \cdots, x_N}$$
+        $$E = E \cap K \subseteq \bigcup_{i=1}^N  E \cap B(x_1, \varepsilon_{x_i}) \subseteq \set{x_1, \cdots, x_N}$$
         But $E$ is infinite, contradiction.
 
         \item[$(ii) \implies (iii)$] Let $x_n$ be a sequence in $K$ and define 
@@ -664,7 +664,7 @@ Some properties of metric spaces.
     \end{align*}
     So 
     $$B(x_n, 1/N) \subseteq B(x_0, \delta_0)$$
-    We get that $K_N = B(x_N, 1/N) \cap K_{N-1} \subseteq B(x_0, \delta_0) \substeq G_{\alpha_0}$. 
+     We get that $K_N = B(x_N, 1/N) \cap K_{N-1} \subseteq B(x_0, \delta_0) \subseteq G_{\alpha_0}$. 
 \end{proof}
 
 \begin{proposition}
