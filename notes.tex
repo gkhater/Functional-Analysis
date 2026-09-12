@@ -1,0 +1,749 @@
+\documentclass[11pt,a4paper]{article}
+
+%----- ENHANCED TYPOGRAPHY -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % clean vector font
+\usepackage{microtype}      % better justification & kerning
+\usepackage{palatino} 
+\usepackage{braket}   
+\usepackage{mathtools}  % in the preamble
+\usepackage{bbm}
+
+%----- PAGE LAYOUT -----
+\usepackage{geometry}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\usepackage{setspace}
+\onehalfspacing  % 1.5 line spacing
+
+%----- FANCY HEADERS & FOOTERS -----
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% page number outside, header text inside
+
+\fancyhead[LO]{\small \rightmark}
+\fancyhead[RO]{\small \leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% make sections feed into \leftmark/\rightmark
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+%----- SECTION NUMBERING & TOC DEPTH -----
+\setcounter{secnumdepth}{3}  % number down to \subsubsection
+\setcounter{tocdepth}{2}     % show ToC down to \subsection
+
+%----- AMS MATH & THEOREM STYLES -----
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{amsthm}
+
+% definitions, examples, remarks upright
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+
+% theorems, lemmas, corollaries italic
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+
+% unnumbered proof environment
+\theoremstyle{remark}
+
+%----- OTHER PACKAGES -----
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usetikzlibrary{calc, matrix, decorations.pathreplacing, positioning}
+\usepackage{tikz-cd}
+\usepackage{hyperref}
+\hypersetup{colorlinks,
+linkcolor=blue, citecolor=purple, urlcolor=teal}
+\usepackage{enumitem}
+\setlist[itemize]{nosep, left=1.5em}
+\usepackage{booktabs}
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\small,
+numbers=left,
+numbersep=5pt,
+frame=single,
+breaklines=true
+}
+\usepackage{xcolor}
+\definecolor{shade}{HTML}{F5F5F5}
+\usepackage{float}
+%----- CUSTOM MACROS -----
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\dist}[2]{d\bigl(#1,#2\bigr)}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}} 
+\newcommand{\Q}{\mathbb{Q}} 
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\angles}[1]{\langle #1 \rangle}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\1}{\mathbbm{1}}
+
+% \usepackage{mathtools} 
+% \DeclarePairedDelimiter{\angles}{\langle}{\rangle} 
+% \DeclarePairedDelimiter{\braces}{\left\{}{\right\}} 
+% \DeclarePairedDelimiter{\abs}{\lvert}{\rvert} 
+% \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+%----- TITLE METADATA -----
+\title{\LARGE\bfseries Functional Analysis}
+\author{Georges Khater \\ \small American University of Beirut, Math 305}
+\date{\today}
+
+%===============================================
+\begin{document}
+\maketitle
+\tableofcontents
+\bigskip
+
+\section{Metric Spaces.} 
+
+\subsection{Topological Spaces}
+
+\begin{definition}
+    Given a set $X$, a topology $\tau$ on $X$ is a subset of $\mathcal{P}(X)$ s.t. 
+    \begin{enumerate}
+        \item $\varnothing, X \in \tau$
+        \item Closed under union: $E_\alpha \in \tau \ \forall \alpha \in I \implies \bigcup_{\alpha \in I} E_\alpha \in \tau$
+        \item Closed under finite intersection: $E_1, E_2, \cdots, E_n \in \tau \implies \bigcap_{i=1}^n E_i \in \tau$
+    \end{enumerate}
+    We say that $(X, \tau)$ is a topological space.
+\end{definition}
+
+\begin{definition}
+    Let $(X, \tau)$ a topological space and $A \subseteq X$
+    \begin{itemize}
+        \item $A$ open $\iff$ $A \in \tau$. 
+        \item $A$ is closed $\iff X \setminus A$ is open.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    $(X, \tau)$ topological space and $x \in X$. A neighborhood of $x$ is an open set $U_x \ni x$. 
+\end{definition}
+
+\begin{definition}
+    $(X, \tau)$ topological space, ,and $A \subseteq X$. Then $x$ is an interior point of $A$ $\iff \exists U_x$ an open neighborhood of $x$ s.t. 
+    $U_x \subseteq X$. 
+
+    We denote by $\mathring{A}$ the set of interior points of $A$. Notice $\mathring{A} \subseteq A$.
+
+    Now $x$ is a limit point of $A$ $\iff \forall U_x$ a neighborhood of $x$, we have that $U_x \setminus \set{x} \cap A \ne \varnothing$. $A'$ denotes the set of all 
+    limit points of $A$ and $\overline{A} := A \cap A'$ denotes the closure of $A$.
+\end{definition}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item $\mathring{A}$ is an open set. In fact, $A$ is open $\iff A = \mathring{A}$.
+        \item $\overline{A}$ is closed. In fact, $A$ is closed $\iff A' \subseteq A \iff \overline{A} = A$.
+    \end{enumerate}
+
+    Consequence, $A$ is open iff $\forall x \in A, \ \exists U_x \ni x$ an open neighborhood s.t. $U_x \subseteq A$.
+\end{proposition}
+
+\begin{proof}
+    Easy.
+\end{proof}
+
+\begin{definition}
+    Let $(X, \tau_x), \ (Y, \tau_y)$ topological spaces, and $f \colon X \to Y$ and $x_0 \in X$. Then $f$ is continuous at $x_0 \iff \forall V$ neighborhood of $f(x_0)$ there exists a neighborhood $U$ of $x_0$ s.t. 
+    $f(U) \subseteq V$.
+
+    $f$ is said to be continuous on $X$ iff $f$ is continuous at every $x_0 \in X$.
+\end{definition}
+
+\begin{proposition}
+    $f \colon X \to Y$ continuous iff $f^{-1}(G)$ is open in $X$ for every $G$ open in $Y$. 
+\end{proposition}
+
+\begin{definition}
+    $(X, \tau)$ topological spaces, and $x_n$ a sequence in $X$. We say that $x_n$ converges to $x_0 \in X$ iff for every $U_{x_0}$ neighborhood of $x_0$, $\exists N \in \N$
+    s.t. $x_n \in U_{x_0}$ $\forall n \ge N$. 
+\end{definition}
+
+\begin{example}
+    $x_n = \frac{1}{n}$. 
+    \begin{itemize}
+        \item In $(\R, \tau_{\text{trivial}})$, this sequence converges to every point in $\R$.
+        \item In $(\R, \tau_{\text{disc}})$, this sequence doesn't converge to any point (we say that it diverges).
+    \end{itemize}
+\end{example}
+
+\begin{proposition}
+    $(X, \tau)$ topological space. $A \subseteq X$, $x_n$ sequence in $A$ that converges to $x_0$. Then $x_0 \in \overline{A}$. 
+\end{proposition}
+
+\begin{proposition}
+    $f \colon (X, \tau_x) \to (Y, \tau_y)$ and $x_0 \in X$ with $f$ continuous at $x_0$. If $x_n$ converges to $x_0$, then $f(x_n)$ converges to $f(x_0)$.
+\end{proposition}
+
+\begin{definition}
+    $(X, \tau)$ topological space, $A \subseteq X$. We say that $A$ is dense in $X$ iff $\overline{A} = X$. We say that $X$ is separable iff it has a countable dense subset.
+\end{definition}
+
+\begin{example}
+    $(\R^n, \abs{\cdot})$ is separable. $(\R, \tau_{\text{disc}})$ is not separable. $(X, \tau_{\text{trivial}})$ is always separable.
+\end{example}
+
+\begin{definition}
+    $(X, \tau)$ is a Hausdorff space iff $\forall x, y \in X \ x \ne y$ $\exists U_x, U_y$ neighborhoods of $x, y$ respectively s.t. 
+    $U_x \cap U_y = \varnothing$.
+\end{definition}
+
+\begin{proposition}
+    The limit of a convergent sequence in a Hausdorff space is unique.
+\end{proposition}
+
+\begin{proof}
+    Assume $x_n$ converges to $x, y$ with $x \ne y$, since Hausdorff we have $U_x, U_y$ neighborhoods with $U_x \cap U_y = \varnothing$. Now for $n$ big enough 
+    $x_n \in U_x$ for $n \ge N$ then $x_n \not\in U_y$ for these $n \ge N$, contradiction.
+\end{proof}
+
+\begin{definition}
+    $X$ a set, then a metric on $X$ is a function $d \colon X \times X \to \R$ s.t. 
+    \begin{enumerate}
+        \item $d(x, y) \ge 0, \ \forall x, y \in X$ with equality iff $x = y$. 
+        \item $d(x, y) = d(y,x) \ \forall x, y \in X$. 
+        \item $d(x, z) \le d(x,y) + d(y, z) \ \forall x,y,z \in X$
+    \end{enumerate} 
+    We say that $(X, d)$ is a metric space.
+\end{definition}
+
+\begin{definition}
+    $x, \in X$ and $r \ge 0$ then 
+    $$B(x, r) = \set{y \in X \colon d(x, y) < r}$$ 
+    Now define 
+    $$\tau_d \set{U \in \tau_d \iff \forall x \in U \exists r \ge 0 s.t. B(x, r) \subseteq U}$$
+\end{definition}
+
+\begin{proposition}
+    the $B(x, r)$. 
+    $\tau_d$ is a topology on $X$, called the metric topology. Then $(X, \tau_d)$ is always Hausdorff and $\tau_d$ is the smallest topology containing all 
+\end{proposition}
+
+\begin{proposition}
+    Take $(X, d)$ metric space and $x_n$ converges to $x_0$ iff $\forall \varepsilon > 0, \ \exists N \in \N$ s.t. $d(x_n, x_0) < \varepsilon \ \forall n \ge N$.
+\end{proposition}
+
+\begin{proposition}
+    $(X, d)$ metric space and $E \subseteq X$, then $x \in \overline{E}$ iff $\exists x_n \in E$ a convergent sequence with $x_n \to x$ 
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$(\impliedby)$] Any topological space. 
+        \item[$(\implies$)] Take $x \in \overline{E} = E \cup E'$, if $x \in E$ take $x_n = x$. Now if $x \in E'$, then for every $n \in \N, \ \exists x_n \in B^*(x, 1/n) \cap E$ then 
+        $d(x_n, x) < 1/n$, by Archimedean property we get that $x_n \to x$.
+    \end{itemize}
+\end{proof}
+
+\begin{proposition}
+    $(X, d)$ metric space with $E \subseteq X$, then $E$ is closed iff for every convergent sequence $x_n \in E$ the limit as $n \to \infty$ of $x_n \in E$.
+\end{proposition}
+
+\begin{definition}
+    $(X, d)$ metric space, then $E \subseteq X$ is bounded iff $E \subseteq B(x_0, R)$ for some $x_0 \in x$ and $R > 0$. In particular, a sequence $x_n$ is bounded 
+    iff $\exists M$ s.t. $\abs{x_n} \le M \ \forall n \in \N$.
+\end{definition}
+
+\begin{example}[Some examples of some separable or not separable metric spaces]
+    \mbox{}\\
+    \begin{itemize}
+        \item $(\R, \abs{\cdot})$ separable with countable dense set $\Q^n$.
+        
+        \item The space $C([a,b])$ of real valued continuous functions with $d_\infty(f, g) = \max_{[a, b]} \abs{f(x) - g(x)}$. By Stone-Weierstrass, for every $f \in C([a,b])$ there exists a sequence of polynomials 
+        $P_n$ s.t. $\lim_{n \to \infty} P_n = f$ uniformly. Let's call $P(\R)$ the space of polynomials and fix $\varepsilon > 0$ and $f \in C([a,b])$. Then $\exists P \in P(\R)$ s.t. 
+        $d_\infty (P, f) < \varepsilon/2$ with 
+        $$p(x) = c_k x^k + c_{k-1} x^{k-1} + \cdots + c_1 x + c_0$$
+        Now for each $c_i \in q_i \in \Q$ s.t. $\abs{c_i - q_i} < \frac{\varepsilon}{2M}$ where $M \ge \sum_{i=0}^k \abs{x}^i, \forall x \in [a,b]$. Now let 
+        $$q(x) = q_k x^k + \cdots + q_1 x + q_0$$
+        So we get that 
+        \begin{align*}
+            \abs{p(x) - q(x)} &\le \sum_{i=0}^k \sum_{q_i - c_i} \abs{x^i} \\ 
+            &\le \frac{\varepsilon}{2M} \sum_{i=0}^k \abs{x}^i
+        \end{align*}
+        So we get that 
+        $$d_\infty(q, f) < \varepsilon$$
+        Hence $C([a, b])$ is separable.
+
+        \item Let $\ell^\infty (\R)$ be the space of bounded sequences. Now define 
+        $$x = (x_1, x_2, \cdots), \quad y = (y_1, y_2, y_3, \cdots)$$ 
+        and 
+        $$d_\infty (x,y) = \sup_{i \in \N} \abs{x_i - y_i}$$
+        Assume it's separable, let $M$ be the countable dense subset. Let $A = \set{0,1}^\N$ be the space of all sequences with entries $0$ or $1$, clearly $A$ is uncountable. But if $x, y \in A$  with $x \ne y$ then 
+        $d_\infty (x, y) = 1$. For every $a \in A$, construct $B(a, 1/2)$, let $m_a$ be an element of $B(a, 1/2) \cap M$ (uses AOC and density of $m_a$). Clearly if $a \ne b$, we have 
+        $B(a, 1/2) \cap B(b, 1/2) = \varnothing$, then $a \to m_a$ is injective, hence $M$ is uncountable. Contradiction.
+    \end{itemize}    
+\end{example}
+
+\begin{definition}
+    Let $(X, d)$ a metric space, given a sequence $x_n$ in $X$, we say that $x_n$ is Cauchy iff $\forall \varepsilon > 0, \ \exists N$ s.t. 
+    $$d(x_n, x_m) < \varepsilon, \ \forall n, m \ge N$$  
+\end{definition}
+
+\begin{proposition}
+    Every Cauchy sequence is bounded, every convergent sequence is Cauchy.
+\end{proposition}
+
+\begin{definition}
+    $(X,d)$ is complete iff every Cauchy Sequence converges.
+\end{definition}
+
+\begin{example}
+    $(\R^n, \abs{\cdot})$ is complete.
+\end{example}
+
+Some properties of metric spaces.
+\begin{enumerate}[label = \roman*)]
+    \item if $x_n$ converges, then $x_n$ is bounded. 
+    
+    \item Let $C$ be the space of convergent sequences, then $C \subseteq \ell^\infty$. We want to show that $C$ is closed in $\ell^\infty$. 
+    Let $x^1 = (x_{1,1}, x_{1,2}, \cdots), x^2 = (x_{2, 1}, x_{2,2}, \cdots), x^3 = (x_{3, 1}, x_{3,2}, \cdots), \cdots$ be a sequence in $C$ that converges to some sequence $x = (x_1, x_2, \cdots) \in \ell^\infty$. 
+    Let $\varepsilon > 0$, since $x^n$ converges to $x$ in $\ell^\infty$, $\exists N$ s.t $d_\infty(x^n, x) < \varepsilon/3 \ \forall n \ge N$. In particular for $n = N$ we have 
+    $$\abs{x_{N,i} - x_i} < \varepsilon/3, \quad \forall i = 1,2,3,\cdots$$
+    Now $x^N$ is Cauchy, then $\exists i_0$ s.t.
+    $$\abs{x_{N,i} - x_{N,j}} < \varepsilon/3, \quad \forall i,j \ge i_0$$
+    Hence 
+    \begin{align*}
+        \abs{x_i - x_j} &\le \abs{x_i - x_{N,i}} + \abs{x_{N,i} - x_{N,j}} + \abs{x_{N,j} - x_j} \\
+        &< \varepsilon
+    \end{align*}
+    Then the sequence $x$ is Cauchy, since $\R$ is complete we have that $x \in C$. So $C$ is closed. 
+
+    %TODO: exercises.
+    \item Is $\ell^\infty(\R)$ complete. Let $x^1 = (x_{1,1}, x_{2,1}, \cdots), x^2 = (x_{2,1}, x_{2,2}, \cdots), \cdots$ be a Cauchy sequence in $\ell^\infty(\R)$. We define 
+    $$x_i := (x_{i}^1, x_{i}^2, x_{i}^3, \cdots)$$
+    Clearly we have that for each $i \in \N$, 
+    $$d_\infty (x^k, x^l) \ge \abs{x_{k,i} - x_{l, i}}$$
+    Hence it must be the case that all the $x_i$'s are Cauchy, and hence converge to some $x_{i}^*$ (since $\R$ is complete). Define 
+    $$x^* := (x_1^*, x_2^*, \cdots)$$
+    Now by Cauchy we know that $\exists N \in \N$ s.t. 
+    $$d_\infty(x_n, x_m) < \varepsilon/2, \quad \forall n,m \ge N$$
+    Therefore $\forall i \in \N$ we have that 
+    $$\abs{x^n_i - x_i^m} < \varepsilon/2$$
+    But we know that $(x^m_i)_i \to x^*_i$, by continuity of $\abs{\cdot}$, we have 
+    $$\abs{x^n_i - x_i^*} \le \varepsilon/2, \quad \forall i \in \N, \ \forall n \ge N$$
+    Note that $N$ is fixed over all $i$'s hence 
+    $$d_\infty (x^n, x^*) = \sup_{i \in \N} \abs{x^n_i - x_i} \le \varepsilon/2 < \varepsilon$$
+    Hence $\ell^\infty(\R)$ is complete.
+
+    Note that $x^*$ is bounded because each $x^n$ is bounded in $\ell^\infty$, therefore $\abs{x_{n,i}} \le M, \ \forall n, i$, taking $n \to \infty$ we get that $\abs{x_i} \le M, \ \forall i$.
+
+    \item Is $C([a, b])$ complete. This is just uniformly Cauchy iff uniformly convergent and the uniform limit of continuous functions is continuous.
+    
+    \item Is $P([a,b])$ closed in $C([a,b])$. No, this is because $P([a,b])$ is dense with nonempty complement. So if its complement was open, it should contain a nonempty open set, contradicting density of 
+    the polynomials.
+\end{enumerate}
+
+\begin{proposition}
+    Let $(X,d_x), \ (Y, d_y)$ metric spaces and $f \colon X \to Y$ and $x_0 \in X$ then $f$ is continuous at $x_0$ iff $\forall \varepsilon > 0, \ \exists \delta > 0$ s.t. 
+    $$d_y(f(x), f(x_0)) < \varepsilon, \quad x \text{ s.t. } d_x(x, x_0) < \delta$$
+    iff for every sequence $x_n \to x_0$ we have $f(x_n) \to f(x_0)$. 
+\end{proposition}
+
+\begin{proposition}
+    $(X,d)$ metric space, $E \subseteq X$. If $E$ is complete, then $E$ is closed.
+\end{proposition}
+
+\begin{proof}
+    Let $x_n$ be a sequence in $E$ that converges to some $x \in X$ , but $x_n$ is Cauchy in $E$ so it converges to $x \in E$ (by uniqueness of the limit).
+\end{proof}
+
+\begin{example}
+    Note that the converse is false, $(\Q, \abs{\cdot})$ is closed in itself but is not Cauchy.
+\end{example}
+
+\begin{proposition}
+    Every closed subset of a complete metric space is complete.
+\end{proposition}
+
+\begin{proof}
+    Take $(X,d)$ complete and $E \subseteq X$ closed. Take a Cauchy sequence $x_n \in E$, since $E \subseteq X$ it converges to some $x \in X$. Now $E$ is closed so we must have $x\in E$. 
+\end{proof}
+
+\begin{example}
+    $C \subseteq \ell^\infty(\R)$ is complete. 
+\end{example}
+
+\begin{remark}
+    $(X,d)$ metric space: 
+    $$\abs{d(x,y) - d(x',y')} \le d(x,x') + d(y,y')$$
+
+    This is because 
+    \begin{align*}
+        d(x,y) &\le d(x,x') + d(x', y') + d(y',y) \\
+        d(x,y) - d(x',y') &\le d(x,x') + d(y,y') 
+    \end{align*}
+    Similarly, 
+    $$d(x',y) - d(x,y) \le d(x',x) + d(y',y)$$
+    So we get the desired inequality.
+\end{remark}
+
+\begin{corollary}
+    $(X,d)$ metric space and $x_n, y_n$ Cauchy sequences, then $d(x_n, y_n)$ converge in $\R$.
+\end{corollary}
+
+\begin{proof}
+    Take $d_n = d(x_n, y_n) \in \R$, we show that $d_n$ is Cauchy. Now 
+    \begin{align*}
+        \abs{d_n - d_m} &= \abs{d(x_n, y_n) - d(x_m, y_m)} \\
+        &\le d(x_n, x_m) + d(y_n, y_m) 
+    \end{align*}
+    Now since $x_n, y_n$ are Cauchy then $d_n$ is Cauchy in $\R$. Which by completeness gives that $d_n$ converges.
+\end{proof}
+
+\begin{lemma}
+    $(X,d)$ metric space, and $M$ a dense subset of $X$ s.t. every Cauchy sequence in $M$ converges in $X$. Then $X$ is complete.
+\end{lemma}
+
+\begin{proof}
+    Let $x_n$ be a Cauchy sequence in $X$, for every $n \in \N, \ \exists y_n \in M$ s.t. 
+    $$d(x_n, y_n) < \frac{1}{n}$$
+    Let $\varepsilon > 0$, now 
+    \begin{align*}
+        d(y_n, y_m) &\le d(y_n, x_n) + d(x_n, x_m) + d(x_m, y_m) \\
+        &< \frac{1}{n} + d(x_n, x_m) + \frac{1}{m}
+    \end{align*}
+    Now $\exists N$ s.t. $n,m \ge N$ we have 
+    $$d(y_n, y_m) < \varepsilon$$
+    This is because
+    $$1/m, 1/n < \varepsilon/3, \quad d(x_n, x_m) < \varepsilon/3$$
+    Now $y_n \in M$ is Cauchy, so $y_n$ converges to some $y_0 \in X$. Now let $\varepsilon$
+    \begin{align*}
+        d(x_n, y_0) &\le d(x_n, y_n) + d(y_n, y_0) \\
+        &< \frac{1}{n} + d(y_n, y_0)
+        &< \varepsilon
+    \end{align*}
+    for $n \ge N$ for some large enough index $N$. Then $x_n \to y_0$ so $X$ is complete.
+\end{proof}
+
+\begin{definition}
+    $\varphi \colon (X, d_X) \to (Y,d_y)$ is an isometry iff 
+    $$d_Y(\varphi(x), \varphi(y)) = d_X(x,y)$$ 
+    
+    We say that $A$ is isometric to $B$ iff there exists a bijective isometry $\varphi \colon A \to B$.
+\end{definition}
+
+
+\begin{theorem}[Completeness theorem]
+    $(X,d)$ metric space, then there exists a complete metric space $(\hat{X}, \hat{d})$ and a dense subset $M$ of $\hat{X}$ s.t. $M$ is isometric to $X$.  
+
+    In fact, the completion is "unique" (up to isometry), we call it the completion of $X$.
+\end{theorem}
+
+\begin{proof}
+    Let $C_X$ be the space of Cauchy sequences in $X$. We define the relation $\sim$ on $C_X$ as follows 
+    $$x_n \sim y_n \iff \lim_{n \to \infty} d(x_n, y_n) = 0$$
+    Not that the RHS exists by the above. Clearly $\sim$ is an equivalence relation. Let $\hat{X} = C_X / \sim$ (the set of equivalence classes), i.e. 
+    $$\hat{X} = \set{[x_n] \colon x_n \in C_X}$$ 
+    We define $\hat{d} ([x_n], [y_n]) = \lim_{n \to \infty} d(x_n, y_n)$ (this exists by the corollary above). Note that this is well-defined, indeed let $x_n \sim x_n'$ and $y_n \sim y_n'$ 
+    so we have that 
+    \begin{align*}
+        \abs{d(x_n, y_n)  - d(x_n', y_n')} \le d(x_n, x_n') + d(y_n, y_n')  \to 0
+    \end{align*}
+    Therefore 
+    $$\lim_{n \to \infty} d(x_n, y_n) = \lim_{n \to \infty} d(x_n', y_n')$$
+    We now show that $\hat{d}$ is a metric (clear since $d$ is a metric): 
+    \begin{itemize}
+        \item Clearly $\hat{d} ([x_n], [y_n]) \ge 0$ and equal to zero iff $\lim_{n \to \infty} d(x_n, y_n) = 0 \iff x_n \sim y_n \iff [x_n] = [y_n]$. 
+        \item Symmetry follows from Symmetry of $d$. 
+        \item Triangle inequality follows from triangle inequality on $d$. 
+    \end{itemize} 
+    Define $\varphi \colon X \to \hat{X}$ as follows, 
+    $$\varphi(x) = [(x,x,x,\cdots)], \quad (x,x,x,\cdots) \in C_x$$
+    This is clearly an isometry, we denote by $M := \varphi(X) = \set{[(x,x,x,\cdots) \colon x \in X]}$. We now show that $\overline{M} = \hat{X}$. 
+    Consider an element $[x_n] = [(x_1, x_2, \cdots)] \in \hat{X}$. Let $\varepsilon > 0$, $\exists N \in \N$ s.t. $\forall m,n \ge N$ 
+    $$d(x_n, x_m) < \varepsilon /2 $$
+    Consider the sequence $P_n = (x_N, x_N, \cdots)$, clearly 
+    $$d(x_n, P_n) = d(x_n, x_N) < \varepsilon/2, \quad \forall n \ge N$$
+    Then 
+    $$\hat{d} ([x_n], [P_n]) = \lim_{n \to \infty} d(x_n, P_n) \le \varepsilon/2 < \varepsilon$$
+    With 
+    $$[P_n] = [(x_N, x_N, \cdots)] \in M$$ 
+    Therefore $\overline{M} = \hat{X}$. It remains to show that $\hat{X}$ is complete, we use the lemma. Take a Cauchy sequence in $M$, 
+    $$P_{x_1} = [(x_1, x_1, \cdots)], \ P_{x_2} = [(x_2, x_2, \cdots)], \ \cdots, \ P_{x_k} = [(x_k, x_k, x_k, \cdots)]$$
+    Construct the sequence $p = (x_1, x_2, x_3, \cdots)$, note that 
+    $$d(x_n, x_m) = \hat{d} ([(x_n)], [(x_m)]) = \hat{d} (P_{x_n}, P_{x_m})$$
+    But $P_{x_n}$ is Cauchy in $\hat{X}$, hence $p$ is Cauchy in $X$, so $P := [p] \in \hat{X}$. Take $\varepsilon > 0$, then $\exists N \in \N$ s.t. 
+    $$d(x_n, x_k) \le \varepsilon/2, \quad \forall n, k \ge N$$
+    So we get that for $k \ge N$
+    \begin{align*}
+        \hat{d} (P, P_{x_k}) &= \lim_{n \to \infty} d(x_n, x_k) \\
+        &\le \varepsilon/2 \\
+        &< \varepsilon
+    \end{align*}
+    Hence 
+    $$\lim_{k \to\infty} P_{x_k} = P \in \hat{X}$$
+\end{proof}
+
+\subsection{Compactness}
+
+\begin{definition}
+    $(X, \tau)$ topological spaces and $K \subseteq X$. Then $K$ is compact iff every open cover $\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$ of $K$ has a finite subcover.
+\end{definition}
+
+\begin{example}
+    $[0,1)$ is not compact in $(\R, \abs{\cdot})$, $\mathcal{G} = \set{(-1, 1-1/n) \colon n \in \N}$ has no finite subcover.
+
+    Finite sets are clearly compact. 
+\end{example}
+
+\begin{proposition}
+    $(X, \tau)$ topological space, then every closed subset of a compact set is compact. 
+\end{proposition}
+
+\begin{proof}
+    Let $K$ be compact, and $E \subseteq K$ is closed. Let $\mathcal{G} = \set{G_\alpha}_{\alpha \in I}$ open cover of $E$, so 
+    $$E \subseteq \bigcup_{\alpha \in I} G_\alpha$$
+    But $E^c$ is open with 
+    $$K \subseteq \left(\bigcup_{\alpha \in I} G_\alpha \right)\cup E^c$$
+    Hence $\set{G_\alpha} \cup \set{E^c}$ is an open cover of $K$, so it has a finite subcover 
+    $$K \subseteq G_{\alpha_1} \cup \cdots \cup G_{\alpha_N} \cup E^c$$
+    Then clearly 
+    $$E = E \cap K \subseteq G_{\alpha_1} \cup \cdots \cup G_{\alpha_N}$$
+    so $E$ is compact. 
+\end{proof}
+
+\begin{proposition}
+    Let $(X, \tau)$ be a Hausdorff space, then $K$ compact $\implies$ $K$ is closed. 
+\end{proposition}
+
+\begin{proof}
+    Take $q \in K^c$, for every $p \in K$ by Hausdorff $\exists U_p, V_{p}^q$ open neighborhoods of $p, q$ resp. s.t. 
+    $U_p \cap V_p^q = \varnothing$. Take $\mathcal{G} = \set{U_p}_{p \in K}$ an open cover of $K$, so it has a finite subcover 
+    $$K \subseteq U_{p_1} \cup \cdots \cup U_{p_N}$$
+    Now define 
+    $$V^q = V_{p_1}^q \cap \cdots \cap V_{p_N}^q$$
+    open set with 
+    $$V^q \cap K = \varnothing$$
+    So $K$ is closed. 
+\end{proof}
+
+\begin{proposition}
+    $(X,d)$ metric space, $K \subseteq X$ is compact $\implies$ $K$ is closed and bounded.
+\end{proposition}
+
+\begin{proof}
+    Ex.
+\end{proof}
+
+\begin{theorem}[Heine Borel]
+    The converse is true for $(\R^n, \abs{\cdot})$ or more generally f.d. vector spaces.
+\end{theorem}
+
+\begin{example}
+    $\ell^\infty(\R) \ d_\infty(x, y) = \sup_{x_i - y_i}$ and $A = \set{0,1}^\N$. Note that $A$ is bounded, since if $x_0 = (0,0,0,0,\cdots)$, notice that 
+    $d_\infty(x, x_0 ) \le 1$, so $A$ is bounded. Moreover, every convergent sequence in $A$ is eventually a constant and so belongs to $A$ so $A$ is closed. 
+    We could also say that $A^c$ is open, take $x \not\in A$, then $\exists x_i \ne 0, \ x_i \ne 1$. So $\exists \varepsilon>0$ s.t. forall $y \in (x_i - \varepsilon, x_i + \varepsilon)$ $y_0 \ne 0, \ y \ne 1$. 
+    take $z \in B(x, \varepsilon)$ so 
+    $$\abs{z_i - x_i} \le d_\infty(z,x) < \varepsilon$$
+    i.e. $z_i \ne 0$ and $z_i \ne 1$ so $z \in A^c$. 
+
+    Now $A$ is not compact. Take $\mathcal_{G} = \set{B(x,1/2)}_{x \in A}$, now $B(x,1/2) \cap A = \set{x}$ but $A$ is infinite (uncountable even), then $\mathcal{G}$ does not have a finite subcover. 
+\end{example}
+
+\begin{definition}
+    $(X, d)$ metric space and $K \subseteq X$, then $K$ is totally bounded iff $\forall \varepsilon > 0, \ \exists x_1, x_2, \cdots, x_n \in K$ s.t. $K \subseteq B(x_1, \varepsilon) \cup B(x_2, \varepsilon) \cup \cdots \cup B(x_n, \varepsilon)$. 
+\end{definition}
+
+\begin{example}
+    $\set{0,1}^\N$ is not totally bounded in $\ell^\infty(\R)$ (although it is bounded).
+\end{example}
+
+\begin{proposition}
+    $K$ is totally bounded $\implies K$ is bounded.
+\end{proposition}
+
+\begin{proof}
+    easy.
+\end{proof}
+
+\begin{proposition}
+    $A$ subset of a totally bounded set is totally bounded. 
+\end{proposition}
+
+\begin{proof}
+    Let $K$ be totally bounded and $E \subseteq K$, fix $\varepsilon >0$ then we have $x_1, x_2, \cdots, x_n \in K$ s.t. 
+    $$K \subseteq B(x_1, \varepsilon/2) \cup \cdots \cup B(x_n, \varepsilon/2)$$
+    Note that $E \subseteq K$, so pick $y_1, \cdots, y_k \in B(x_i, \varepsilon/2)$ (in case of empty just skip). Then we have that 
+    $$E \subseteq B(x_1, \varepsilon) \cup \cdots \cup B(x_k, \varepsilon)$$  
+\end{proof}
+
+\begin{lemma}
+    Assume that $x_n$ is a Cauchy sequence in $(X, d)$ with a subsequence that converges to $x_0$, then $x_n \to x_0$.    
+\end{lemma}
+
+\begin{proof}
+    easy.
+\end{proof}
+
+\begin{remark}
+    In $\R^n$ (finite dimensional vector spaces), $K$ is totally bounded iff $K$ is bounded. 
+\end{remark}
+
+\begin{proof}
+    Let $K$ be bounded, then $\exists Q$ a closed cube in $\R^n$ s.t. $K \subseteq Q$. Now $Q$ is compact (closed and bounded), so given $\varepsilon > 0$ it can be covered by finitely many balls of radius $\varepsilon$ and center in $\Q$. 
+    So the cube is totally bounded, and hence $K$ is a subset of a totally bounded set, hence is totally bounded. 
+\end{proof}
+
+\begin{theorem}
+    $(X, d)$ metric space and $K \subseteq Q$, then the following are equivalent: 
+    \begin{enumerate}[label = \roman*)]
+        \item $K$ is compact 
+        \item Every infinite subset $E$ of $K$ has a limit point in $K$. 
+        \item Every sequence in $K$ has a convergent subsequence (with its limit in $K$). 
+        \item $K$ is complete and totally bounded. 
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$(i) \implies (ii)$] Let $E \subset K$ be infinite s.t. $E$ has no limit points in $K$. Then for each $x \in K$, $x \not\in E'$ so $\exists \varepsilon_x$ s.t. 
+        $$B^*(x, \varepsilon_x) \cap E = \varnothing$$
+        Now take $\mathcal{G} = \set{B(x, \varepsilon_x)}_{x \in K}$, this is an open cover of $K$ so it has a finite subcover. We get 
+        $$K \subseteq B(x_1, \varepsilon_{x_1}) \cup \cdots \cup B(x_N, \varepsilon_{x_N})$$
+        But $E \subseteq K$ so 
+        $$E = E \cap K \subseteq \bigcup_{i=1}^N  E \cap B(x_1, \varepsilon_{x_i}) \subseteteq \set{x_1, \cdots, x_N}$$
+        But $E$ is infinite, contradiction.
+
+        \item[$(ii) \implies (iii)$] Let $x_n$ be a sequence in $K$ and define 
+        $$E = \set{x_n\colon n \in \N}$$
+        If $E$ is finite, by pigeonhole principle $\exists n_1 < n_2 < \cdots$ and $x_0 \in E$ s.t. $x_{n_k} = x_0 \in E$ so we have found a convergent subsequence. If not then by the hypothesis $E$ has a limit point $x_0 \in K$.
+        We know that 
+        $$B(x_0, 1) \cap E \ne \varnothing$$
+        So let $n_1$ be such that $x_{n_1} \in B(x_0, 1) \cap E$. In fact if $x \in E'$ we have that $B(x, \varepsilon) \cap E$ is infinite (since we are in a metric space). Hence for each $k$, 
+        $$B^*(x_0, 1/k) \cap E \text{ is infinite}$$
+        So we can find some $n_k > n_{k-1}$ with $d(x_{n_k}, x_0) < 1/k$, we have that 
+        $$\lim_{k \to \infty} x_{n_k} = x_0$$  
+
+        \item[$(iii) \implies (iv)$] Let $x_n$ be a Cauchy sequence in $K$. But $K$ is sequentially compact, then $x_n$ has a convergent subsequence $x_{n_k} \to x_0 \in K$. 
+        Now by the lemma, $x_n$ converges to $x_0$ and so $K$ is complete. Assume $K$ is not totally bounded, then $\exists \varepsilon_0 > 0$ s.t. $K$ cannot be covered by finitely many $\varepsilon_0$-balls with center in $K$. 
+        take $x_1 \in K$, then take $x_2 \in K \setminus B(x_1, \varepsilon_0)$, then $x_3 \in K \setminus (B(x_1, \varepsilon_0) \cup B(x_2, \varepsilon_0))$. Similarly take 
+        $$x_k \in K \setminus \left(B(x_1, \varepsilon_0) \cup \cdots \cup B(x_{k-1}, \varepsilon_0)\right)$$
+        Consider the sequence $\set{x_n}$, then for $n \ne m$ we have 
+        $$d(x_n, x_m) \ge \varepsilon_0$$
+        So $x_n$ has no convergent subsequence, contradiction.  
+
+        \item[$(iv) \implies (i)$] Assume $K$ is not compact, then $\exists \mathcal{G} = \set{G_\alpha}_{\alpha \in I}$ an open cover of $K$ that does not have a finite subcover. 
+        Take $\varepsilon = 1$, so $K$ can be covered by finitely many $1$-balls. So a$\exists x_1 \in K$ and $B(x_1, 1)$ s.t. 
+        $K_1 := B(x_1, 1) \cap K$ cannot be covered by a finite subcover of $\mathcal{G}$. Now take $\varepsilon = 1/2$, since $K_1 \subseteq K$ is totally bounded we can similarly find $x_2 \in K_1$ with 
+        $K_2 := B(x_2, 1/2) \cap K_1$ cannot be covered by finitely many $G_\alpha$'s. Recursively, we construct 
+        $$K_0 \subseteq K_1 \subseteq K_2 \subseteq \cdots$$
+        with $K_n := B(x_n, 1/n) \cap K_{n-1}$ with $x_{n} \in K_{n-1}$ and $K_n$ cannot be covered by finitely many elements in $\mathcal{G}$. We show that $x_n$ is Cauchy. 
+        Fix $\varepsilon > 0$, take $N$ s.t. $2/N < \varepsilon$, then for $n, m > N$ then 
+        $$x_n \in K_{n-1} \subseteq K_N, \quad x_m \in K_{m-1} \subseteq K_N \implies x_n, x_m \in K_N = B(x_{n}, 1/N) \cap K_{N-1}$$
+        So 
+        \begin{align*}
+            d(x_n, x_m) &\le d(x_n, x_N) + d(x_N, x_m) \\
+            &< 2/N\\
+            &< \varepsilon
+        \end{align*}
+        So $x_n$ is Cauchy.
+    \end{itemize}
+    Therefore by completeness, $x_n$ converges to some $x_0 \in K$. But we must have that $\exists \alpha_0 \in I$ s.t. 
+    $x_0 \in G_{\alpha_0}$ which is open, so $\exists \delta_0 > 0$ s.t. $B(x_0, \delta_0) \subseteq G_{\alpha_0}$. Since $x_n \to x_0$, then $\exists N$ s.t. 
+    $1/N < \delta_0/2$ and $d(x_n, x_0) < \delta_0/2$. So take $y \in B(x_n, 1/N)$ so 
+    \begin{align*}
+        d(y,x_0) &\le d(y,x_n) + d(x_n, x_0) \\
+        &< 1/N + d(x_n, x_0) \\
+        &< \delta_0
+    \end{align*}
+    So 
+    $$B(x_n, 1/N) \subseteq B(x_0, \delta_0)$$
+    We get that $K_N = B(x_N, 1/N) \cap K_{N-1} \subseteq B(x_0, \delta_0) \substeq G_{\alpha_0}$. 
+\end{proof}
+
+\begin{proposition}
+    $f \colon (X, \tau_X) \to (Y, \tau_Y)$ and $K \subseteq X$ compact, then $f(K)$ is compact.
+\end{proposition}
+
+\begin{proof}
+    easy.
+\end{proof}
+
+\subsection{The Arzela-Ascoli theorem} 
+
+\begin{definition}
+    Let $X$ be a compact metric space, we denote by $C(X)$ the space of real-valued continuous functions on $X$. We define 
+    $$d_\infty(f, g) = \sup_{x \in X} \abs{f(x) - g(x)}$$
+\end{definition}
+
+\begin{proposition}
+    $C(X)$ is complete and separable.
+\end{proposition}
+
+\begin{proof}
+    Uniformly Cauchy in $\R$ $\implies$ uniformly continuous, follows from the general Stone-Weierstrass theorem.
+\end{proof}
+
+\begin{remark}
+    Since $X$ is compact, then every continuous function is uniformly continuous. I.e. $\forall \varepsilon > 0, \ \exists \delta > 0$ s.t. 
+    $$d_Y(f(x), f(x')) < \varepsilon, \quad \forall d(x, x') < \delta$$
+\end{remark}
+
+
+\begin{definition}
+    $\mathcal{F} \subseteq C(X)$ is said to be equicontinuous iff $\forall \varepsilon > 0$, $\exists \delta > 0$ s.t. 
+    $$d(f(x), f(x')) < \varepsilon, \quad \forall x, x' \ d(x,x') < \delta, \ \forall f \in \mathcal{F}$$
+\end{definition}
+
+\begin{theorem}[Arzela-Ascoli]
+    $\mathcal{F} \subseteq C(X)$ is totally bounded $\iff$ $\mathcal{F}$ is bounded and equicontinuous.
+\end{theorem}
+
+\begin{proof}
+    postponed.
+\end{proof}
+
+\begin{corollary}
+    $\mathcal{F} \subseteq C(X)$ is compact iff $\mathcal{F}$ is closed and bounded and equicontinuous.
+\end{corollary}
+
+\begin{lemma}
+    $\mathcal{F} \subseteq C(X)$ is equicontinuous, then $\overline{\mathcal{F}}$ is equicontinuous.
+\end{lemma}
+
+\begin{proof}
+    Take $\varepsilon > 0$ and $f \in \overline{f}$, then $\exists f_n \in \mathcal{F}$ s.t. 
+    $$\sup_{X} \abs{f_n - f}$$
+    but $\mathcal{F}$ is equicontinuous, so $\exists \delta > 0$ s.t. $\forall h \in \mathcal{F}$
+    $$\abs{h(x) - h(x')} < \varepsilon/3, \quad \forall x, x' \text{ s.t. } d(x,x') < \delta$$
+    for $d(x,x') < \delta$ 
+    \begin{align*}
+        \abs{f(x) - f(x')} &\le \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(x')} + \abs{f_n(x') - f(x')} \\
+        &\le 2 \sup_X \abs{f - f_n} + \varepsilon/3 
+    \end{align*}
+    But $\exists N$ s.t. for $n \ge N$ $\sup \abs{f - f_n} < \varepsilon/3$ and 
+    $$\abs{f(x) - f(x')} < \varepsilon$$
+\end{proof}
+
+\begin{theorem}[Sequential Arzela-Ascoli]
+    Let $f_n$ be a sequence in $C(X)$ s.t. 
+    \begin{enumerate}[label = \roman*)]
+        \item $f_n$ is uniformly bounded, i.e. $\abs{f_n(x)} \le M, \ \forall x \in X, \ \forall n \in \N$. 
+        \item $f_n$ is equicontinuous, i.e. $\forall \varepsilon > 0, \ \exists \delta$ s.t. 
+        $$\abs{f_n(x) - f_n(x')} < \varepsilon, \ \forall x, x' \ d(x,x') < \delta, \ \forall n \in \N$$
+    \end{enumerate}
+    Then $f_n$ has a subsequence that converges uniformly to a function $f \in C(X)$.
+\end{theorem}
+
+\begin{proof}
+    $\mathcal{F} = \set{f_n \in \N}$, then $\overline{\mathcal{F}}$ is closed, bounded and equicontinuous. 
+    Then $\overline{\mathcal{F}}$ is compact and hence is sequentially compact.
+\end{proof}
+
+\end{document}
