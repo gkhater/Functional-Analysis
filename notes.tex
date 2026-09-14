@@ -706,7 +706,51 @@ Some properties of metric spaces.
 \end{theorem}
 
 \begin{proof}
-    postponed.
+    \begin{itemize}
+        \item[$\implies$] $\mathcal{F}$ is bounded since it is totally bounded. Let $\varepsilon > 0$, since $\mathcal{F}$ is totally bounded, there exist $f_1, f_2, \cdots, f_N \in \mathcal{F}$ s.t. 
+        $$\mathcal{F} \subseteq B(f_1, \varepsilon/3) \cup \cdots \cup B(f_N, \varepsilon/3)$$
+        Now $f_i \in C(X)$, so uniformly continuous, and so $\exists \delta_i > 0$ s.t. 
+        $$\abs{f_i(x) - f_i(y)} < \varepsilon/3, \quad \forall d(x,y) < \delta_i$$
+        Let $\delta = \min_i \delta_i$. Now take $f \in \mathcal{F}$, and $x, y \in X$ with $d(x,y) < \delta$, now $\exists i_0 \in \set{1, \cdots, N}$ s.t. 
+        $f \in B(f_{i_0}, \varepsilon/3)$. Hence 
+        \begin{align*}
+            \abs{f(x) - f(y)} &\le \abs{f(x) - f_{i_0}(x)} + \abs{f_{i_0}(x) - f_{i_0}(y)} + \abs{f_{i_0}(y) - f(y)} \\
+            &\le 2 \times d_\infty(f, f_{i_0}) + \varepsilon/3 \\
+            &< \varepsilon
+        \end{align*} 
+        Therefore $\mathcal{F}$ is equicontinuous.
+
+        \item[$\impliedby$] Let $\varepsilon > 0$, then $\exists \delta > 0$ s.t $\forall f \in \mathcal{F}$ we have 
+        $$\abs{f(x) - f(y)} < \varepsilon/3, \quad \forall x,y \in X \text{ s.t. } d(x,y) < \delta$$
+        Now $X$ is compact, then we can cover $X$ with finitely many $\delta$-balls, i.e.
+        $$X = B(x_1, \delta) \cup \cdots \cup B(x_N, \delta)$$
+        Define a map $\varphi \colon \mathcal{F} \to \R^N$, 
+        $$\varphi(f) = (f(x_1), \cdots, f(x_N))$$
+        We want to show that $\varphi(\mathcal{F})$ is bounded in $\R^N$. We know that $\mathcal{F}$ is bounded in $C(X)$, so $\exists M > 0$ s.t. 
+        $$\abs{f(x)} \le M, \quad \forall f \in \mathcal{F}, \ \forall x \in X$$
+        Therefore 
+        $$\abs{\varphi(f)} = \sqrt{f(x_1)^2 + \cdots + f(x_N)^2} \le \sqrt{N} M$$
+        Therefore $\varphi(\mathcal{F})$ is bounded in $\R^N$. Therefore $\varphi(\mathcal{F})$ is totally bounded. Then 
+        there exists $f_1, f_2, \cdots, f_K \in \mathcal{F}$ s.t. 
+        $$\varphi(\mathcal{F}) \subseteq B(\varphi(f_1), \varepsilon/3) \cup \cdots \cup B(\varphi(f_K), \varepsilon/3)$$
+        We want to show that 
+        $$\mathcal{F} \subseteq B(f_1, \varepsilon) \cup \cdots \cup B(f_K, \varepsilon)$$
+        Let $f \in \mathcal{F}$, then $\varphi(f) \in \varphi(\mathcal{F})$ i.e. $\exists i_{0}$ s.t. 
+        $\varphi(f) \in B(\varphi(f_{i_0}), \varepsilon/3)$. Recall that 
+        $$\varphi(f) = (f(x_1), \cdots, f(x_N))$$
+        But notice that for each $j$, we have 
+        $$\abs{f(x_j) - f_{i_0}(x_j)} < \varepsilon / 3, \quad \forall j =1, \cdots, N$$
+        Let $x \in X$, then $x \in B(x_{j_0}, \delta)$ for some  
+        \begin{align*}
+            \abs{f(x) - f_{i_0}(x)} &\le \abs{f(x) - f(x_{j_0})} + \abs{f(x_{j_0}) - f_{i_0}(x_{j_0})} + \abs{f_{i_0}(x_{j_0}) + f_{i_0}(x)} \\
+            &< \varepsilon
+        \end{align*} 
+        Since this holds for each $x \in X$ we have 
+        $$\abs{f(x) - f_{i_0}(x)} < \varepsilon, \quad \forall x \in X$$
+        Then since $X$ is compact
+        $$\sup \abs{f(x) - f_{i_0}(x)} = \max \abs{f(x) - f_{i_0}(x)} < \varepsilon$$
+        Hence $f \in B(f_{i_0}, \varepsilon)$, therefore $\mathcal{F}$ is totally bounded. 
+    \end{itemize}
 \end{proof}
 
 \begin{corollary}
@@ -745,5 +789,34 @@ Some properties of metric spaces.
     $\mathcal{F} = \set{f_n \in \N}$, then $\overline{\mathcal{F}}$ is closed, bounded and equicontinuous. 
     Then $\overline{\mathcal{F}}$ is compact and hence is sequentially compact.
 \end{proof}
+
+\begin{example}
+    In $C([0,1])$, let $\mathcal{F} = \set{f \in \operatorname{Lip}_1([0,1]) \colon f(0) = \alpha}$ where 
+    $$\operatorname{Lip}_1([0,1]) = \set{f \colon \abs{f(x) - f(y)} \le \abs{x-y}, \ \forall x, y \in X}$$
+    Now $\mathcal{F}$ is compact in $C(X)$. 
+    \begin{itemize}
+        \item \textbf{Closed.} Take $f_n \in \mathcal{F}$ s.t. $f_n \to f$ in $C([0,1])$. Clearly $f_n(0) = \alpha$ hence $f(0) = \alpha$. Now 
+        $$\abs{f_n(x) - f_n(y)} \le \abs{x-y}$$
+        let $n \to \infty$ we have 
+        $$\abs{f(x) - f(y)} \le \abs{x-y}$$
+        Hence $f \in \mathcal{F}$.
+
+        \item \textbf{Bounded.} Now let $f \in \mathcal{F}$, then $\abs{f(x) - f(0)} \le \abs{x - \alpha} \le 1 + \alpha$, therefore for any $f \in \mathcal{F}$ and $x \in X$ we have
+        $$\abs{f(x)} \le \abs{f(x) - f(0)} + \abs{f(0)} \le 1 + 2 \alpha$$
+        Therefore 
+        $$\sup \abs{f(x)} \le 1 + 2 \alpha$$
+        So $\mathcal{F}$ is bounded.
+
+        \item \textbf{Equicontinuous.} Let $\varepsilon > 0$, take $\delta = \varepsilon$, then for $\abs{x-y} < \delta = \varepsilon$ we have 
+        $$\abs{f(x) - f(y)} \le \abs{x-y} < \varepsilon$$
+    \end{itemize} 
+    By Arzela-Ascoli, we get that $\mathcal{F}$ is compact.
+\end{example}
+
+\begin{example}
+    Now fix $f \in C([0,1])$, and look at $m = \inf_{g} \set{d_\infty (f,g) \in \operatorname{Lip}_1 ([0,1]) \colon g(0) = f(0)}$, want to show that this is attained. 
+    Indeed, let $g_n$ be a sequence in $\operatorname{Lip}_1([0,1])$ $g_n(0) = f(0)$ with $d_\infty(f, g_n) \to m$. By compactness, $g_n$ has convergent subsequence $g_{n_k}$ in $C(X)$ to a function 
+    $g \in \operatorname{Lip}_1([0,1])$. Now $d_\infty(f,g) = \lim_{k \to \infty} d_\infty(f, g_{n_k}) = m$. 
+\end{example}
 
 \end{document}

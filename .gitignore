@@ -7,6 +7,7 @@
 /notes.fdb_latexmk
 /notes.fls
 /notes.xdv
-/out
+/out/*
+!/out/notes.pdf
 *.log
 xelatex-check.log
