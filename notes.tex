@@ -92,6 +92,7 @@ breaklines=true
 \newcommand{\abs}[1]{\lvert #1 \rvert}
 \newcommand{\norm}[1]{\lVert #1 \rVert}
 \newcommand{\1}{\mathbbm{1}}
+\newcommand{\Span}{\operatorname{Span}}
 
 % \usepackage{mathtools} 
 % \DeclarePairedDelimiter{\angles}{\langle}{\rangle} 
@@ -818,5 +819,368 @@ Some properties of metric spaces.
     Indeed, let $g_n$ be a sequence in $\operatorname{Lip}_1([0,1])$ $g_n(0) = f(0)$ with $d_\infty(f, g_n) \to m$. By compactness, $g_n$ has convergent subsequence $g_{n_k}$ in $C(X)$ to a function 
     $g \in \operatorname{Lip}_1([0,1])$. Now $d_\infty(f,g) = \lim_{k \to \infty} d_\infty(f, g_{n_k}) = m$. 
 \end{example}
+
+\subsection{Baire Category Theorem}
+
+\begin{definition}
+    $(X, \tau)$ topological space, $A \subseteq X$. We say that $A$ is nowhere dense in $X$ iff $\overline{A}$ has empty interior.
+\end{definition}
+
+\begin{example}
+    In $\R$, all singletons (or discrete sets) are nowhere dense in $\R$. But $\Q$ is not nowhere dense in $\R$.
+\end{example}
+
+\begin{proposition}
+    $A$ is nowhere dense in $X$ $\iff X \setminus \overline{A}$ is dense. 
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] take $x \in X$ and $U_x \ni x$ open neighborhood, but $x$ is not an interior point of $\overline{A}$ because $\mathring{\overline{A}} = \varnothing$, therefore $U_x \cap \overline{A} \ne \varnothing$. 
+        \item[$\impliedby$] Same. 
+    \end{itemize}
+\end{proof}
+
+
+\begin{remark}
+    $A$ closed set is nowhere dense iff $\mathring{A} = \varnothing$.   
+\end{remark}
+
+\begin{definition}
+    $(X, \tau)$ topological space and $A \subseteq X$. We say that $A$ is first Category or meagre in $X$ iff $A$ can be written as a countable union of nowhere dense subsets of $X$.
+    Otherwise we say that $A$ is second category (or non meagre).
+\end{definition}
+
+\begin{example}
+    $\Q$ is first category in $\R$. 
+\end{example}
+
+\begin{remark}
+    If a set $A$ is second Category with $A = \bigcup_{n=1}^\infty F_n$ with $F_n$ closed, then $\exists n_0$ with $F_{n_0}$ has nonempty interior. 
+\end{remark}
+
+\begin{theorem}[Baire Category Theorem]
+    $(X, d)$ complete metric space, then if $G_1, G_2, \cdots$ are open dense subsets of $X$ then $\bigcap_{n=1}^\infty G_n$ is dense in $X$.
+    Equivalently, every nonempty open subset of $X$ is second Category. In particular, if $X = \bigcup_{n=1}^\infty F_n$ with $F_n$ closed, then $\exists n_0$ with $F_{n_0}$ has nonempty interior.
+\end{theorem}
+
+\paragraph{Why equivalently?} 
+\begin{itemize}
+    \item[$\implies$] Let $G$ open in $X$, suppose that we can write $G = \bigcup_{n=1}^\infty A_n$ where $A_n$ is nowhere dense. Take $G_i = X \setminus \overline{A}$, 
+    note that $G_i$ is open and dense in $X$, therefore $\bigcap_{n=1}^\infty G_n$ is dense in $X$. But 
+    \begin{align*}
+        \bigcap_{n=1}^\infty G_n &= \bigcap_{n=1}^\infty (\overline{A_n})^c \\
+        &= \left(\bigcup_{n=1}^\infty \overline{A_n}\right)^c 
+    \end{align*}
+    Which is dense in $X$. But we have that 
+    $$\bigcup_{n=1}^\infty \overline{A_n} \supseteq G$$
+    with $G$ open, contradiction.
+
+    \item[$\impliedby$] Let $G_1, G_2, \cdots$ be open dense subsets of $X$. Note that $G_i$ is second Category, and suppose $\bigcap_{n=1}^\infty G_n$ is not dense, 
+    so $\exists H \subseteq \left(\bigcap_{n=1}^\infty G_n\right)^c = \bigcup_{n=1}^\infty G_n^c$ with $H$ open. But this means that 
+    $$H = \bigcup_{n=1}^\infty G_n^c \cap H$$
+    with $H$ second category, then $\exists n_0 \in \N$ and an open set $U \subseteq G_{n_0}^c \cap H \subseteq G_{n_0}^c$, contradiction.
+\end{itemize} 
+
+
+\begin{proof}[Proof of Baire Category Theorem]
+    Take $x_0 \in X$ and $\delta > 0$, take $B_0 = B(x_0, \delta)$. Now $B_0$ intersects $G_1$, and $\exists x_1 \in B_0 \cap G_1$ and 
+    $\delta_1 < \delta/2$ s.t. 
+    $$B_1 = B(x_1, \delta_1) \subseteq \overline{B(x_1, \delta_1)} \subseteq B_0 \cap G_1$$
+    Now $B_1$ intersects $G_2$, so $\exists x_2 \in B_1 \cap G_2$ and $\delta_2 < \delta/2^2$ with 
+    $$B_2 = B(x_2, \delta_2) \subseteq \overline{B(x_2, \delta_2)} \subseteq B_1 \cap G_2 \subseteq B_0 \cap G_1 \cap G_2$$
+    Continue this recursively to get $x_n \in B_{n-1} \cap G_n$ and $\delta_n < \delta/2^n$ s.t. 
+    $$B_n = B(x_n, \delta_n) \subseteq \overline{B(x_n, \delta_n)} \subseteq B_0 \cap G_1 \cap \cdots \cap G_n$$
+    We show that $x_n$ is a Cauchy sequence in $X$. Indeed, let $n,m > N$ for some $N \in \N$ then $x_n, x_m \in B_N = B(x_N, \delta_N)$, so 
+    $$d(x_n, x_m) < 2 \delta/2^{N} = \delta/2^{N-1}$$
+    Now let $\varepsilon > 0$, choose $N$ s.t. $\delta/2^{N-1} < \varepsilon$, then 
+    $$d(x_n, x_m)< \varepsilon$$
+    so $x_n$ is Cauchy. By completeness, $x_n$ converges to some $z \in X$. We show that $z \in \left(\bigcap_{n=1}^\infty G_n\right) \cap B_0$. 
+    Fix $m$, we have  
+    $$x_n \in \overline{B_m}, \quad \forall n > m$$ 
+    Therefore $z \in \overline{B_m} \subseteq B_0 \cap \left(\bigcap_{k=1}^m G_k\right)$, since this holds for every $m$, we have 
+    $$z \in B_0 \cap \left(\bigcap_{k=1}^\infty G_k\right)$$
+\end{proof}
+
+
+\section{Normed Spaces}
+
+\begin{definition}
+    Given a vector space $V$ over $\F$, a norm is a map 
+    $$\norm{\cdot} \colon V \to \R$$
+    satisfying 
+    \begin{enumerate}[label = \roman*)]
+        \item $\norm{x} \ge 0$ with equality iff $x = 0$.
+        \item $\norm{\alpha x} = \abs{\alpha} \cdot \norm{x}$, $\alpha \in \F, \ x \in V$.
+        \item $\norm{x + y} \le \norm{x} + \norm{y}, \ \forall x, y \in V$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    $\ell^\infty(\R)$ (set of bounded sequences) under coordinate-wise addition and scalar multiplication. 
+    $$\norm{x}_\infty = \sup_{i \in \N} \abs{x_i} = d_\infty (x, 0)$$
+    $C(X)$ with $X$ compact 
+    $$\norm{f}_\infty = \sup_{x \in X} \abs{f(x)}$$ 
+\end{example}
+
+\begin{proposition}
+    Every norm induces a metric 
+    $$d(x, y) = \norm{x-y}$$
+    This allows us to deal with normed space as metric spaces w.r.t. induced metric.
+\end{proposition}
+
+\begin{definition}
+    $V$ is a vector space and $\norm{\cdot}_a, \ \norm{\cdot}_b$ norms on $V$, we say that $\norm{\cdot}_a, \ \norm{\cdot}_b$ are equivalent iff 
+    they induce the same topology.
+\end{definition}
+
+\begin{proposition}
+    $V$ vector space, $\norm{\cdot}_a, \ \norm{\cdot}_b$ norms on $V$. The following are equivalent: 
+    \begin{itemize}
+        \item $\norm{\cdot}_a, \ \norm{\cdot}_b$ are equivalent.
+        \item $\exists c_1, c_2 > 0$ s.t. 
+        $$c_2 \norm{x}_b \le \norm{x}_a \le c_1 \norm{x}_b, \quad \forall x \in V$$
+        \item $x_n \to x_0$ in $(V, \norm{\cdot}_a) \iff x_n \to x_0$ in $(V, \norm{\cdot}_b)$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$(i) \implies (ii)$] $B_{\norm{\cdot}_a} (0,1) = \set{x \in V, \ \norm{x}_a < 1}$ is open in $(V, \norm{\cdot}_a)$ then 
+        $B_{\norm{\cdot}_a}(0,1)$ is open in $(V, \norm{\cdot}_b)$. Therefore $0$ is an interior point of $B_{\norm{\cdot}_a}(0,1)$ w.r.t. the $\norm{\cdot}_b$ norm.
+        Therefore $\exists \delta > 0$ s.t. 
+        $$B_{\norm{\cdot}_b} (0, \delta) \subseteq B_{\norm{\cdot}_a} (0,1)$$
+        Now take $x \in V, \ x \ne 0$, then 
+        $$\frac{\delta}{2} \frac{x}{\norm{x}_b} \in B_{\norm{\cdot}_b}(0, \delta) \subseteq B_{\norm{\cdot}_a} (0,1)$$
+        Hence 
+        $$\abs{\frac{\delta}{2} \frac{x}{\norm{x}_b}}_a < 1 \implies \norm{x}_b < \frac{2}{\delta} \abs{x}_b$$
+        do the same by switching $\norm{\cdot}_a$ and $\norm{\cdot}_b$. 
+
+        \item[$(ii) \implies (iii)$] We have that 
+        $$c_1 \norm{x_n - x_0}_b \le \norm{x_n - x_0}_a \le c_1 \norm{x_n - x_0}$$
+
+        \item[$(iii) \implies (i)$] Closed in $(V, \norm{\cdot}_a) \iff $ Closed in $(V, \norm{\cdot}_b)$ by sequential definition.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    Take $V$ finite dimensional vector space and $S = \set{v_1, \cdots, v_n}$ a basis of $V$. Take $x\in V$, then $\exists ! \ r_1, r_2, \cdots, r_n$ s.t. 
+    $$x = r_1 v_1 + \cdots + r_n v_n$$
+    We define 
+    $$\norm{x}_\infty := \max_{1 \le i \le n} \abs{r_i}$$
+\end{definition}
+
+We then have the following: 
+\begin{proposition}
+    $V$ is a f.d. vector space and $S = \set{v_1, \cdots, v_n}$ a basis: 
+    \begin{enumerate}
+        \item $(V, \norm{\cdot}_\infty)$ is complete. 
+        \item $\set{x \in V \colon \abs{x}_\infty \le M}$ is compact. 
+        \item $K \subseteq (V, \norm{\cdot}_\infty)$ is compact iff $K$ is closed and bounded. 
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $x_k$ be a Cauchy sequence in $V$, then 
+        $$x_k = r_{k1} v_1 +\cdots + r_{kn} v_n$$
+        Then 
+        \begin{align*}
+            \abs{r_{ki} - r_{li}} &\le \norm{x_k - x_l}_\infty 
+        \end{align*}
+        Then the sequence $(r_{ki})_k$ is Cauchy in $\R$ for every $i$, then $r_{ki}$ converges to some $r_i$. Take $x = r_1 v_1 + \cdots + r_n v_n$, we get that 
+        \begin{align*}
+            \norm{x_k - x}_\infty &= \norm{(r_{k1} - r-1) v_1 + \cdots + (r_{kn} - r_n) v_n}_\infty \\
+            &\le \norm{r_{k1} - r_1} \norm{v_1}_\infty + \cdots + \norm{r_{kn} - r_n} \abs{v_n} \\
+            &\to 0
+        \end{align*}
+
+        \item Take a sequence $x$ s.t. $\norm{x_k}_\infty \le M$. Apply Bolzano Weierstrass $n$ times and take subsequence of the subsequence.
+
+        \item $(\implies)$ is always true. $(\impliedby)$ since $K$ is bounded, then $\exists M$ s.t. 
+        $$K \subseteq \set{x \in V \colon \norm{x}_\infty \le M} =: Q$$
+        But $K$ is closed $Q$ is compact, then $K$ is compact. 
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    $V$ is a finite dimensional vector space, then all norms on $V$ are equivalent.
+\end{theorem}
+
+\begin{corollary}
+    $V$ finite dimensional and $\norm{\cdot}$ is a norm on $V$ then $(V, \norm{\cdot})$ has the properties of the theorem above.
+
+    Moreover, if $V$ is a normed space and $M$ is a finite dimensional subspace of $V$.
+\end{corollary}
+
+\begin{remark}
+    Note that the converse is not true in general, take ${P}([a,b])$ as a subspace of $C([a,b])$.
+\end{remark}
+
+\begin{proof}
+    Take $S = \set{v_1, \cdots, v_n}$ a basis of $V$, define 
+    $$\norm{x}_\infty = \max_{1 \le i \le N} \abs{r_i}$$
+    Let $\norm{\cdot}_a$ be a norm on $V$, we will show that $\norm{\cdot}_a$ is equivalent to $\norm{\cdot}$. 
+    \begin{align*}
+        \norm{x}_a &= \norm{r_1 v_1 + \cdots + r_n v_n}_a \\
+        &\le \abs{r_1} \norm{v_1}_a + \cdots + \abs{r_n} \norm{v_n}_a \\
+        &\le (\norm{v_1}_a + \cdots + \norm{v_n}_a) \norm{x}_\infty 
+    \end{align*} 
+    Let $\varphi \colon (V, \norm{\cdot}_\infty) \to \R$, note that this is continuous since if $x_n \to x_0$ in $\norm{\cdot}_\infty$, then 
+    \begin{align*}
+        \abs{\varphi(x_n) - \varphi(x_0)} &= (\norm{x_n}_a - \norm{x_0}) \\
+        &\le \norm{x_n - x_0}_a \\
+        &\le c_1 \norm{x_n - x_0}_\infty \\
+        &\to 0
+    \end{align*}
+    Now let $K = \set{x \in V \colon \norm{x}_\infty = 1}$, note that $K$ is compact (closed and bounded), so 
+    $\varphi(K)$ is compact in $\R$ so $m = \inf \varphi(K)$ is attained at some $x_0 \in K, \ x_0 \ne 0$. Then 
+    $m = \norm{x_0}_a > 0$. So $\forall x \in V$ s.t. $\norm{x}_\infty = 1$ we have 
+    $$\abs{x}_a \ge m$$
+    Take $v \in V$ s.t. $x \ne 0$ we have that 
+    \begin{align*}
+        \norm{\frac{x}{\norm{x}\infty}}_a &\ge m \\
+        \norm{x}_a \ge m \norm{x}_\infty
+    \end{align*}
+\end{proof}
+
+\begin{lemma}[Riesz Lemma]
+    $(V, \norm{\cdot})$ is a normed v.s. and $M$ a proper closed subspace of $V$. Then for every $0 < \alpha < 1$ there exists $x \in V$ s.t. 
+    $\norm{x} = 1$ and 
+    $$d(x, M) \ge \alpha$$
+\end{lemma}
+
+\begin{remark}
+    If $x$ is s.t. $\norm{x} = 1$, then $d(x, M) \le \abs{x - 0} \le 1$.
+\end{remark}
+
+\begin{proof}
+    Take $x_0 \not\in M$, $d(x_0, M) > 0$ since $M$ is closed. Fix $0 < \alpha < 1$, there exists $m_0 \in M$ s.t. 
+    $$ d(x_0, M) \le \norm{x_0 - m_0} < \frac{d(x_0,M)}{\alpha}$$
+    Define 
+    $$x = \frac{x_0 - m_0}{\norm{x_0-m_0}}, \quad \norm{x} = 1$$
+    Let $m \in M$, then 
+    \begin{align*}
+        \norm{x-m} &= \norm{\frac{x_0 - m_0}{\norm{x_0-m_0}} - m} \\
+        &= \frac{\norm{x_0 - (m_0 + m \norm{x_0 - m_0})}}{\norm{x_0 - m_0}}
+    \end{align*} 
+    But $m_0 + m \norm{x_0 - m_0} \in M$, so 
+    $$\norm{x-m} \ge \frac{d(x_0, M)}{\norm{x_0 - m_0}} > \alpha$$
+    Therefore 
+    $$d(x, M) = \inf_{m \in M} \norm{x-m} \ge \alpha$$
+\end{proof}
+
+\begin{theorem}
+    $(V, \norm{\cdot})$ normed space, the closed unit sphere in $V$ is compact iff $V$ is finite dimensional.
+\end{theorem}
+
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\impliedby$] ok. 
+        
+        \item[$\implies$] Assume that $V$ is infinite dimensional, then we can construct 
+        $$E_1 = \Span \set{v_1}, \ E_2 = \Span \set{v_1, v_2}, \ \cdots$$
+        With $E_i$ finite dimensional and $\set{v_i}$ linearly independent. Then 
+        $$E_1 \subsetneq E_2 \subsetneq E_3 \subsetneq \cdots$$
+        Fix some $u_1 \in E_1$ with $\norm{u_1} = 1$, now by Riesz' lemma $\exists u_2 \in E_2$ s.t. $\norm{u_2} = 1$ and 
+        $d(u_2, E_1) \ge 1/2$. Now $\exists u_3 \in E_3$ with $\norm{u_3} = 1$ and $d(u_3, E_2) \ge 1/2$, recursively we can construct $u_n \in E_n$ s.t. 
+        $\norm{u_n} = 1$ and $d(u_n, E_{n-1}) \ge 1$. Now notice that for $m \ne n$ we have 
+        \begin{align*}
+            \norm{u_m - u_n} \ge 1/2
+        \end{align*}
+        Therefore $u_n$ is a sequence which belongs to the unit sphere that has no Cauchy (and hence convergent) subsequence. So the unit sphere is not sequentially compact, and hence not compact.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}
+    A complete normed space is called a Banach space.
+\end{definition}
+
+\begin{example}
+    Some Banach spaces: $\R^N$.
+    $\ell^\infty(\R)$ (which is the set of bounded sequences). 
+    $\ell^(\R) = \set{x \colon (x_1, x_2, \cdots,) \colon \sum \abs{x_i} < \infty}$. 
+    $C(X)$ when $X$ is compact.
+
+    $P(\R)$ is not Banach.
+\end{example}
+
+\textbf{$\ell^p$ Spaces.} 
+
+\begin{lemma}
+    $1 < p,q < \infty$ s.t. $\frac{1}{p}+ \frac{1}{q} = 1$ and $x,y > 0$ s.t. $xy = 1$ then 
+    $$\frac{x^p}{p} + \frac{y^q}{q} \ge 1$$
+\end{lemma}
+
+\begin{proof}
+    $f(x,y) = \frac{x^p}{p} + \frac{y^q}{q}$, we want to minimize $f(x,y)$ on $g(x,y) = xy = 1$. Note that this minimum exists since this is a closed set and $f(x,y) \ge 0$ 
+    for all $x, y$ s.t. $xy = 1$. Using Lagrange multipliers, we solve 
+    $$
+    \begin{cases}
+        \nabla f &= \lambda \nabla g \\
+        xy &= 1
+        \end{cases}
+    $$
+    i.e.
+    $$\begin{cases}
+            x^{p-1} = \lambda y \\
+            y^{q-1} = \lambda y \\
+            xy = 1
+        \end{cases}
+    $$
+    Then we get 
+    $$x^p = \lambda xy = \lambda, \quad y^q = \lambda$$
+    Then $x = \lambda^{1/p}, y = \lambda^{1/q}$, then 
+    $$\lambda^{\frac{1}{p} + 1/q} = 1 \implies \lambda = 1$$
+    Then $x = y = 1$. So the minimum is $f(1,1 ) = 1$.
+\end{proof}
+
+\begin{corollary}
+    $\frac{1}{p} + \frac{1}{q} = 1$, $x,y \ge 0$ then 
+    $$\frac{x^p}{p} + \frac{y^q}{q} \ge xy$$
+\end{corollary}
+
+\begin{proof}
+    Take $X = \frac{x}{(xy)^{1/p}}$ and $Y = \frac{y}{(xy)^{1/q}}$ then 
+    $$XY = \frac{xy}{(xy)^{1/p + 1/q}} = 1$$
+    Then apply the lemma, we get 
+    \begin{align*}
+        \frac{X^p}{p} + \frac{Y^q}{q} &\ge 1 \\
+        \frac{x^p}{(xy)p} + \frac{y^q}{(xy)q} &\ge 1\\
+        \frac{x^p}{p} + \frac{y^q}{q} &\ge xy  
+    \end{align*}
+\end{proof}
+
+\begin{theorem}[Young's inequality]
+    Let $x,y \in \R$ then 
+    $$\abs{xy} \le \frac{\abs{x}^p}{p} + \frac{\abs{y}^q}{q}$$
+    with $\frac{1}{p} + \frac{1}{q} = 1$. 
+\end{theorem}
+
+\begin{theorem}[Holder inequality]
+    Let $x_1, x_2, \cdots, x_n \in \R$ and $y_1, y_2, \cdots, y_n \in \R$ then 
+    $$\sum_{i=1}^n \abs{x_iy_i} \le \left(\sum_{i=1}^n \abs{x_i}^p\right)^{1/p} \left(\sum_{i=1}^n \abs{y_i}^{q}\right)^{1/q}$$
+    With $\frac{1}{p} + \frac{1}{q} = 1$.
+
+    Letting $n \to \infty$ we have 
+    $$\sum_{n=1}^\infty \abs{x_n y_n} \le \left(\sum_{n=1}^\infty \abs{x_n}^p\right)^{1/p} \left(\sum_{n=1}^\infty \abs{y_n}^q\right)^{1/q}$$
+\end{theorem}
+
+\begin{proof}
+    Wlog suppose not all zeroes. Let $X_i = \frac{\abs{x_i}}{\left(\sum_{k=1}^n \abs{x_k}^p\right)^{1/p}}$ and $y_i = \frac{\abs{y_i}}{\left(\sum_{k=1}^n \abs{y_k}^q\right)^{1/q}}$. 
+    From Young's inequality, we have that 
+    \begin{align*}
+        X_i Y_i &= \frac{\abs{x_i} \abs{y_i}}{\left(\sum_{k=1}^n \abs{x_k}^p\right)^{1/p} \left(\sum_{k=1}^n \abs{y_k}^q\right)^{1/q}} \\
+        &\le \frac{X_i^p}{p}  + \frac{Y_i^q}{q} \\
+        &= \frac{\abs{x_i}}{\left(\sum_{k=1}^n \abs{x_k}^p\right)p} + \frac{\abs{y_i}^q}{\left(\sum_{k=1}^n \abs{y_k}^q\right)q}
+    \end{align*}
+    Therefore 
+    \begin{align*}
+        \sum_{i=1}^n X_i Y_i &\le \frac{1}{p} + \frac{1}{q}\\
+        &= 1
+    \end{align*}
+    Substituting we get the desired inequality.
+\end{proof}
 
 \end{document}
