@@ -1183,4 +1183,106 @@ We then have the following:
     Substituting we get the desired inequality.
 \end{proof}
 
+\begin{theorem}[Minkowski inequality]
+    $\left(\abs{x_i + y_i}\right)^p \le \left(\sum_{i=1}^n \abs{x_i}^p\right)^{1/p} + \left(\sum_{i=1}^n \abs{y_i}^p\right)^p$. In the infinite case we get 
+    $$\left(\sum_{n=1}^\infty \abs{x_n + y_n}^p\right)^{1/p} \le \left(\sum_{n=1}^\infty \abs{x_n}^p\right)^{1/p} + \left(\sum_{n=1}^\infty \abs{y_n}^p\right)^{1/p}$$
+\end{theorem}
+
+\begin{proof}
+    If $p =1$, trivial. Take $p > 1$ and let $q$ be s.t. $\frac{1}{p} + \frac{1}{q} = 1$. Then 
+    \begin{align*}
+        \sum_{i=1}^n \abs{x_i + y_i}^p &= \sum_{i=1}^n \abs{x_i + y_i} \cdot \abs{x_i + y_i}^{p-1} \\
+        &\le \sum_{i=1}^n \left(\abs{x_i} + \abs{y_i}\right) \abs{x_i + y_i}^{p-1} \\
+        &= \sum_{i=1}^n \abs{x_i} \abs{x_i + y_i}^{p-1} + \sum_{i=1}^n \abs{y_i} \abs{x_i + y_i}^{p-1} \\
+        &\le \left(\sum_{i=1}^n \abs{x_i}\right)^{1/p} \left(\sum_{i=1}^n \abs{x_i + y_i}^{(p-1)q}\right)^{1/q} \\
+        &\quad + \left(\sum_{i=1}^n \abs{y_i}^p\right)^{1/p} \left(\sum_{i=1}^n \abs{x_i + y_i}^{(p-1)q}\right)^{1/q} 
+    \end{align*}
+    We have that $\frac{1}{p} + \frac{1}{q} = 1 \implies p+q = pq \implies p = q(p-1)$, therefore 
+    \begin{align*}
+        \sum_{i=1}^n \abs{x_i + y_i}^p &\le \left(\sum_{i=1}^n \abs{x_i + y_i}^p\right)^{1/q} \left(\left(\sum_{i=1}^n \abs{x_i}^[]\right)^{1/p} + \left(\sum_{i=1}^n \abs{y_i}^p\right)^{1/p}\right) \\
+        (\sum_{i=1}^n \abs{x_i + y_i}^p)^{1-1/q = 1/p} &\le \left( \sum_{i=1}^n \abs{x_i}^p\right)^{1/p} + \left(\sum_{i=1}^n \abs{y_i}^p\right)^{1/p}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{definition}
+    Let $p \ge 1$, we define the space $\ell^p(\R) = \set{x = (x_1 ,\cdots, ) \colon \sum_{n=1}^\infty \abs{x_n}^p < \infty}$ with the following norm 
+    $\norm{x}_{\ell^p} = \left(\sum_{n=1}^\infty \abs{x_n}^p\right)^{1/p}$. 
+\end{definition}
+
+\begin{proposition}
+    \begin{itemize}
+        \item $\ell^p(\R)$ is complete $\forall 1 \le p \le \infty$. 
+        \item $\ell^p(\R)$ is separable $\forall 1 \le p < \infty$ (recall that $\ell^\infty(\R)$ is not separable). Since $c_{00}(\Q)$ is dense in $\ell^p(\R)$.
+        \item $K \subseteq \ell^p(\R)$ ($p \le 1 < \infty$) is compact iff it is closed and bounded and 
+        $$\lim_{N \to \infty} \sup_{x \in K} \sum_{N=1}^\infty \abs{x_n}^p = 0$$
+        \item $1 \le r \le s < \infty$, then 
+        $$\ell^r(\R) \subseteq \ell^s(\R)$$
+        Hence 
+        $$\ell^1(\R) \subseteq \ell^r (\R) \subseteq \ell^s(\R) \subseteq \ell^\infty (\R)$$
+        \item If $1 \le r < s < \infty$ then $\ell^r (\R) \subsetneq \ell^s(\R)$ 
+        $$x_n = \frac{1}{n^{1/r}}$$
+        Then $\sum \abs{x_n} < \infty$ but $\sum \abs{x_n}^r = \infty$ so 
+        $x_n \in \ell^s(\R)$ and $x_n \not\in \ell^r(\R)$. 
+    \end{itemize}
+\end{proposition}
+
+\subsection{Bounded Linear Transformation}
+
+\begin{definition}
+    $V,W$ vector spaces and $\mathcal{L}(V,W)$ is the space of linear transformations $T \colon V \to W$, this is a vector space.
+\end{definition}
+
+\begin{remark}
+    If $V,W$ are finite dimensional then $\mathcal{L}(V,W)$ is finite dimensional with 
+    $$\operatorname{dim} \mathcal{L}(V,W) = \operatorname{dim}(V) \cdot \operatorname{dim} (W)$$
+\end{remark}
+
+\begin{definition}
+    Take $(V, \norm{\cdot}_V)$ and $(W, \norm{\cdot}_W)$ and $T \in \mathcal{L}(V,W)$ then we say that $T$ is bounded iff $\exists M > 0$ s.t. 
+    $$\norm{Tx}_W \le M \norm{x}_V$$
+    Equivalently $\exists M$ s.t. 
+    $$\norm{Tx} \le M, \quad \forall x \text{ s.t. } \norm{x}_V = 1$$
+\end{definition}
+
+\begin{proposition}
+    $(V, \norm{\cdot}_V)$ and $(W, \norm{\cdot}_W)$ normed spaces and $T \in \mathcal{L}(V,W)$, then 
+    $$ T \text{ bounded} \iff  T \text{ is continuous} \iff T \text{ is continuous at } 0$$
+\end{proposition}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$(i) \implies (ii)$] Then $\exists M$ s.t. $\norm{Tx} \le M \norm{x}$. Then 
+        \begin{align*}
+            \norm{Tx - Ty} &= \norm{T(x-y)} \\
+            &\le M \norm{x-y}
+        \end{align*}
+        Then $T$ is Lipschitz so it is continuous. 
+
+        \item[$(ii) \implies (iii)$] ok.
+        
+        \item[$(iii) \implies (i)$] Let $T$ be continuous at $0$, then $\exists \delta > 0$ s.t. $\norm{Tx - T0} < 1$ for $\norm{x - 0} < \delta$ but this gives 
+        $$\norm{Tx} \le 1$$
+        for $\norm{x} < \delta$. Now take $x \ne 0$, then 
+        $$\norm{T \left(\frac{\delta}{2}\frac{x}{\norm{x}}\right)} \le 1$$
+        So we get 
+        $$\norm{Tx} \le \frac{\delta}{2} \norm{x}$$
+    \end{itemize}
+\end{proof}
+
+\begin{remark}
+    If $V$ is finite dimensional, and $T \in \mathcal{L}(V,W)$, then $T$ is continuous. Take $x \in V$, and $S = \set{v_1, \cdots, v_n}$ basis of $V$. Then 
+    $$x = r_1 v_1 + \cdots + r_n v_n \implies \norm{Tx} \le r_1 \norm{Tv_1} + \cdots + r_n \norm{Tv_n} \le (\norm{Tv_1} + \cdots \norm{Tv_n}) \norm{x}_\infty$$
+    But all norms on $V$ are equivalent, then 
+    $$\norm{Tx}_W \le M \norm{x}_V$$
+    Then $T$ is bounded.  
+\end{remark}
+
+\begin{definition}
+    $(V, \norm{\cdot}), \ (W, \norm{\cdot})$ normed spaces, we define $B(V,W)$ to be the space of bounded linear transformations with the following norm
+    $$\norm{T}_{B(V,W)} = \sup_{\substack{x \in V \\ \norm{x} = 1}} \norm{Tx}_W = \sup_{\substack{x \in V \\ x \ne 0}} \frac{\norm{Tx}}{\norm{x}}$$
+    Check that this is subspace of $\ell(V, W)$ and $\norm{\cdot}_{B(V,W)}$ is a norm.
+\end{definition}
+
+
 \end{document}
