@@ -1284,5 +1284,97 @@ We then have the following:
     Check that this is subspace of $\ell(V, W)$ and $\norm{\cdot}_{B(V,W)}$ is a norm.
 \end{definition}
 
+\begin{remark}
+    Notice that for $x \in V$ $x \ne 0$ we have that 
+    \begin{align*}
+        \abs{T \frac{x}{\norm{x}}} &\le \norm{T} \\
+        \norm{Tx} \le \norm{T} \cdot \norm{x}
+    \end{align*}
+\end{remark}
+
+\begin{proposition}
+    If $W$ is Banach, then $B(V, W)$ is Banach.
+\end{proposition}
+
+\begin{proof}
+    Let $T_n$ be a Cauchy sequence in $B(V,W)$, note that 
+    \begin{align*}
+        \norm{T_n x - T_m x} &\le \norm{T_n - T_m} \cdot \norm{x}
+    \end{align*}
+    But $T_m$ is Cauchy in $B(V,W)$, therefore $T_n(x)$ is Cauchy is $W$ (which is Banach), then in converges. So we define 
+    $$T \colon V \to W, \quad T(x) = \lim_{n \to \infty} T_n(x)$$
+
+    We want to show $T$ is linear, this is trivial by properties of limits and that $T_n$ are linear. Moreover $\set{T_n}$ is Cauchy 
+    in $B(V,W)$, then it is bounded i.e. $\exists M > 0$ s.t. $\norm{T_n} \le M, \ \forall n$. Now 
+    \begin{align*}
+        \norm{T_nx} &\le \norm{T_n} \cdot \norm{x} \\
+        \norm{T_nx} &\le M \norm{x}
+    \end{align*} 
+    Letting $n \to \infty$ we get that $\norm{Tx} \le M \norm{x}$ so $T \in B(V,W)$.
+    
+    We want to show that $T_n \to T$ in $B(V,W)$. Given $\varepsilon > 0$, since $T_n$ is Cauchy, so $\exists N_1$ s.t. 
+    $$\norm{T_n - T_m} < \varepsilon/2, \quad \forall n,m \ge N_1$$
+    Now fix $x \in V$, since $T_n x \to T x$ in $W$ we have that $\exists N_2(x) > N_1$ s.t. 
+    $$\norm{T_{N_2} x - Tx} < \varepsilon/2$$
+    Now for $n \ge N_1$ and $\norm{x} = 1$ we have  
+    \begin{align*}
+        \norm{T_nx - Tx} &< \norm{T_n x - T_{N_2} x} + \norm{T_{N_2} x - Tx} \\
+        &\le \norm{T_n - T_{N_2}} \cdot \norm{x} + \frac{\varepsilon}{2} \\
+        &< \varepsilon
+    \end{align*}
+    Therefore given $\varepsilon > 0$, $\exists N_1$ s..t $\forall x \in V$ with $\norm{x} = 1$ then 
+    $$\norm{T_n x - Tx} < \varepsilon, \quad \forall n \ge N_1$$
+    Therefore 
+    $$\sup_{\substack{x \in V \\ \norm{x} = 1}} \norm{T_nx - T x} \le \varepsilon, \quad \forall n \ge N_1$$
+    Hence 
+    $$T_n \to T \in B(V, W)$$
+\end{proof}
+
+\begin{example}
+    Define 
+    $$T \colon \left(C([0,1]), \norm{\cdot}_\infty\right) \to \R, \quad T (f) = \int_{0}^1 f(x) \ dx$$
+    Show that $T \in B(C([0,1]), \R)$ and find $\norm{T}$.
+
+    \textbf{Solution:} Clearly $T$ is linear because integration is linear. Now 
+    \begin{align*}
+        \abs{Tf} &= \abs{\int_0^1 f(x) \ dx} \\
+        &\le \int_0^1 \abs{f(x)} \ dx \\
+        &\le \norm{f}_\infty
+    \end{align*}
+    Take $T \in B(C([0,1]), \R)$, note that 
+    $$\sup_{\norm{f}_\infty} \norm{Tf} \le 1$$
+    moreover if we take $f = 1$ we have that $\norm{Tf} = 1$. Therefore 
+    $$\norm{T} = 1$$
+\end{example}
+
+\subsection{Duality} 
+
+\begin{definition}
+    Let $V$ normed space over $\F \in \set{\R, \C}$. Then the dual set $V^* = B(V,\F)$, which is the set of all bounded linear maps from $V \to \F$.
+    In particular, the dual norm 
+    $$\norm{f}_* = \sup_{\substack{x \in V \\ \norm{x} = 1}} \norm{f(x)} = \sup_{\substack{x \in V \\ x \ne 0}} \norm{\frac{\abs{f(x)}}{\norm{x}}}$$
+\end{definition}
+
+\begin{remark}
+    If $V$ is finite dimensional, then $V^* = B(V, \F) = \mathcal{L}(V,\F)$, then 
+    $$\dim V^* = \dim V < \infty$$
+    Therefore $V^*$ and $V$ are isomorphic. 
+\end{remark}
+
+\textbf{notation.} Given $(V, \norm{\cdot}), \ (W, \norm{\cdot})$ we write $V \cong W$ iff $V$ and $W$ are isometrically isomorphic. i.e. $\exists \varphi \colon V \to W$ and isomorphism and isometry.
+
+\begin{example}
+    $(\ell^1 (\R))^* \cong \ell^\infty(\R)$, more particularly if $1 < p < q < \infty$ and $1/p + 1/q = 1$, then 
+    $$(\ell^p)^* \cong \ell^q$$
+    So for $p = 2$ we get that 
+    $$(\ell^2)^* \cong \ell^2$$
+    Now if $1 < p < q < + \infty$  then 
+    $$(\ell^p)^{**} \cong (\ell^q)^* \cong (\ell^p)^*$$
+    If $p = 1$, then 
+    $$(\ell^1)^* \cong \ell^\infty \text{ but } (\ell^\infty)^* \ne \ell^1$$
+\end{example}
+
+
+
 
 \end{document}
