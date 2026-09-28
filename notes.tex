@@ -902,7 +902,6 @@ Some properties of metric spaces.
     $$z \in B_0 \cap \left(\bigcap_{k=1}^\infty G_k\right)$$
 \end{proof}
 
-
 \section{Normed Spaces}
 
 \begin{definition}
@@ -1374,7 +1373,125 @@ We then have the following:
     $$(\ell^1)^* \cong \ell^\infty \text{ but } (\ell^\infty)^* \ne \ell^1$$
 \end{example}
 
+\begin{theorem}
+    $(\ell^1)^* \cong \ell^\infty$, moreover if $1 < p < q < \infty$ then 
+    $$(\ell^p)^* \cong \ell^q$$
+    Where $\frac{1}{p} + \frac{1}{q} = 1$
+\end{theorem}
 
+\begin{lemma}
+    Let $1 \le p < \infty$ and let $x = (x_1, x_2, \cdots) \in \ell^p(\R)$ then 
+    $$x = \sum_{n=1}^\infty x_n e_n = \lim_{N \to \infty} \sum_{n=1}^N x_n e_n$$
+\end{lemma}
+
+\begin{proof}
+    Indeed note that 
+    $$\sum_{n=1}^N x_n e_n = (x_1, x_2, \cdots, x_N, 0, 0, \cdots)$$
+    and since $x_n \in \ell^p(\R)$ we have that 
+    $$\sum_{n=1}^\infty \abs{x_n}^p < \infty$$
+    Now 
+    \begin{align*}
+        \norm{x - \sum_{n=1}^N x_n e_n}_{\ell^p} &= \norm{(0,\cdots, 0, x_{N+1}, x_{N+2})}_p \\
+        &= \left(\sum_{n=N+1}^\infty \abs{x_n}^p \right)^{1/p} \\
+        &\to 0
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    Now for $\ell^\infty$ the result is false. Indeed consider 
+    $$\1 = (1, 1, 1, \cdots)$$
+    Then 
+    $$\sum_{n=1}^N x_n e_n = (1,1,\cdots, 1, 0,0,\cdots)$$
+    But 
+    \begin{align*}
+        \norm{x- \sum_{n=1}^N x_n e_n}_\infty &= \norm{(0,\cdots, 0, 1,1,\cdots)}_\infty \\
+        &= 1
+    \end{align*}
+    Which means that 
+    $$\lim_{N \to \infty} \sum_{n=1}^N x_n e_n \ne x$$
+\end{remark}
+
+\begin{proof}[Proof of $(\ell^1)^* \cong \ell^\infty$]
+    Let $T \in (\ell^1)^*$, then $T \colon \ell^1 \to \R$ bounded. Let $x \in \ell^1$, then by the lemma we have that $x = \sum_{n=1}^\infty x_n e_n$. With $T$ continuous and linear therefore 
+    $$Tx = \sum_{n=1}^\infty x_n Te_n$$
+    Let $b = (Te_1, Te_2, \cdots)$, we want to show that $b \in \ell^\infty$. Indeed, since $T$ is bounded we have 
+    $$\norm{Te_i} \le \norm{T} \cdot \norm{e_i} = \norm{T}$$
+    Therefore 
+    $$\sup_{i \in \N} \abs{Te_i} \le \norm{T}$$
+    Hence $b \in \ell^\infty$ with 
+    $$\norm{b}_\infty \le \norm{T}$$
+    On the other hand 
+    \begin{align*}
+        \abs{Tx} &= \abs{x_n Te_n} \\
+        &\le \sum_{n=1}^\infty \abs{x_n} \cdot \abs{b_n} \\ 
+        \norm{Tx} &\le \norm{b}_\infty \norm{x}
+    \end{align*}
+    Therefore 
+    $$\norm{T} \le \norm{b}_\infty$$
+    Therefore 
+    $$\norm{T}_* = \norm{b}_\infty$$
+    Using all of this we know that the linear map 
+    $$\psi \colon (\ell^1)^* \to \ell^\infty, \quad \psi(T) = (Te_1, Te_2, \cdots)$$
+    is an isometry. To prove surjectivity, we can take $b = (b_1, b_2, \cdots) \in \ell^\infty$ and define $T_b \colon \ell^1 \to \R$ by 
+    $$T_b x = \sum_{n=1}^\infty x_n b_n$$
+    Note that this converges since 
+    $$\sum_{n=1}^\infty \abs{x_n b_n} \le \norm{b} \norm{x}$$
+    Then $T_b$ is linear and
+    $$\abs{T_bx} \le \norm{b}_\infty \norm{x} \implies T_b \in (\ell^1)^*$$
+    Then 
+    \begin{align*}
+        \psi(T_b) &= (T_be_1, T_b e_2, \cdots) \\
+        &= (b_1, b_2, \cdots) \\
+        &= b
+    \end{align*}
+\end{proof}
+
+\section{Hahn-Banach Theorems}
+
+\textbf{Motivation.} Let $(V, \norm{\cdot})$ be a normed space over $\F$ and let $\mathcal{M}$ be a subspace of $V$ and $T \colon M \to \F$ a bounded linear map. 
+Notice that 
+$$\norm{Tx - Ty} \le \norm{T} \cdot \norm{x - y}$$
+Therefore $T$ is uniformly continuous and $\F$ is complete, then by the homework the map 
+$$\tilde{T} \colon \overline{\mathcal{M}} \to \F, \quad \tilde{T} x = \lim_{n \to \infty} Tx_n, \ x_n \text{ a sequence in $\mathcal{M}$ converging to $x$}$$
+is a continuous extension of $T$ into $\overline{\mathcal{M}}$. Moreover, $\mathcal{M}$ is a subspace then $\overline{\mathcal{M}}$ is also a subspace. Then $\tilde{T}$ is also 
+linear. Then $\tilde{T} \in B(\overline{\mathcal{M}}, \F)$. Now by definition 
+\begin{align*}
+    \norm{\tilde{T}} &= \sup_{\substack{x \in \overline{\mathcal{M}} \\ x \ne 0}}\frac{\norm{\tilde{T} x}}{\norm{x}} \\
+    &\ge \norm{T}
+\end{align*}
+Let $x \in \overline{\mathcal{M}}$ and $x_n \to x$ with $x_n \in \mathcal{M}$. Then 
+\begin{align*}
+    \abs{Tx_n} &\le \norm{T} \cdot \norm{x_n} 
+\end{align*} 
+Letting $n \to \infty$ we get 
+$$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \norm{T}$$
+
+\begin{lemma}
+    $(V, \norm{\cdot})$ normed space and $\mathcal{M}$ proper subspace of $V$ and $x_0 \not\in \mathcal{M}$. Let 
+    $$f \colon \mathcal{M} \to \R$$ 
+    a bounded linear map. Then there exists an extension 
+    $$F \colon \mathcal{M} \oplus \Span \set{x_0} \to \R$$
+    s.t. $F$ is a bounded linear map and 
+    $$F_{|M} = f$$
+    and 
+    $$\norm{F} = \norm{f}$$
+\end{lemma}
+
+\begin{proof}
+    Take $x \in \mathcal{M} \oplus \Span \set{x_0}$, then we can write 
+    $$x = m + tx_0, \quad t \in \R$$
+    We would like to have 
+    \begin{align*}
+        F(x) &= F(x + tx_0) \\
+        &= f(m) + t F(x_0)
+    \end{align*}
+    So we need to define $F(x_0)$ s.t. 
+    $$\abs{F(m + tx_0)} \le \norm{f} \norm{m + t x_0}$$
+    Since this would give us that 
+    $$\norm{F} = \norm{f}$$
+    Note that it is enough to prove this for $t=1$, i.e. that 
+    $$F(m + x_0) \le \norm{f} \norm{m + x_0}$$
+\end{proof}
 
 
 \end{document}
