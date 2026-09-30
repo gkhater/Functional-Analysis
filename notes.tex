@@ -1469,7 +1469,7 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
 \begin{lemma}
     $(V, \norm{\cdot})$ normed space and $\mathcal{M}$ proper subspace of $V$ and $x_0 \not\in \mathcal{M}$. Let 
     $$f \colon \mathcal{M} \to \R$$ 
-    a bounded linear map. Then there exists an extension 
+    a bounded linear map and let $x_0 \not\in \mathcal{M}$. Then there exists an extension 
     $$F \colon \mathcal{M} \oplus \Span \set{x_0} \to \R$$
     s.t. $F$ is a bounded linear map and 
     $$F_{|M} = f$$
@@ -1483,15 +1483,115 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     We would like to have 
     \begin{align*}
         F(x) &= F(x + tx_0) \\
-        &= f(m) + t F(x_0)
+        &= f(m) + t c
     \end{align*}
-    So we need to define $F(x_0)$ s.t. 
-    $$\abs{F(m + tx_0)} \le \norm{f} \norm{m + t x_0}$$
+    So we need to define $F(x_0) := c \in \R$ s.t. 
+    $$\abs{F(m + tx_0)} \le \norm{f} \norm{m + t x_0} (*)$$
     Since this would give us that 
     $$\norm{F} = \norm{f}$$
+    Clearly we have that $(*)$ holds for $t = 0$. 
     Note that it is enough to prove this for $t=1$, i.e. that 
-    $$F(m + x_0) \le \norm{f} \norm{m + x_0}$$
+    $$\abs{F(m + x_0)} \le \norm{f} \norm{m + x_0}$$
+    Indeed, suppose that this is the case, then for $t \ne 0$
+    \begin{align*}
+        \abs{F(m + tx_0)} &=  \abs{t} \abs{F(\frac{m}{t} + x_0)} \\
+        &\le \abs{t} \norm{f} \norm{\frac{m}{t} + x_0} \\
+        &= \norm{f} \norm{m + tx_0}
+    \end{align*} 
+    Then it is enough to find $c$ s.t. 
+    $$\abs{F(m + x_0)} \le \norm{f} \norm{m + x_0}$$
+    Which is equivalent to saying that 
+    $$-f(m) - \norm{f} \norm{m + x_0} \le c \le \norm{f} \norm{m + x_0} - f(m), \quad \forall m \in \mathcal{M}, \ (**)$$
+    Take $m, m' \in \mathcal{M}$ then 
+    \begin{align*}
+        f(m') - f(m) &= f(m' - m) \\
+        &\le \abs{f(m' - m)} \\
+        &\le \norm{f} \norm{m' - m} \\
+        &\le \norm{f} \left(\norm{m' + x_0} + \norm{m + x_0}\right)
+    \end{align*}
+    Which is equivalent to saying that 
+    \begin{align*}
+        f(m) - \norm{f} \norm{m + x_0} &\le - f(m') + \norm{f} \norm{m' + x_0}, \quad \forall m,m' \in \mathcal{M}
+    \end{align*}
+    Hence 
+    $$\sup_{m} \left(-f(m) - \norm{f} \norm{m+x_0}\right) \le \inf_{m} \left(-f(m) + \norm{f} \norm{m+x_0}\right)$$
+    And so we can find $c$ satisfying $(**)$. Then we can define 
+    $$F(m + tx_0) = f(m) + tc_0$$
+    Hence 
+    \begin{align*}
+        \abs{F(m + tx_0)} &\le \norm{f} \norm{m + tx_0} \\
+    \end{align*}
+    Therefore $F$ is bounded and clearly $\norm{F} = \norm{f}$ (this gives us $\le$ but from the definition $\ge$ is clear). 
 \end{proof}
+
+\subsection{Partially Ordered Sets} 
+
+\begin{definition}
+    Given a set $X$, a partial order on $X$ is a relation $\preceq$ on $X$ that is 
+    \begin{enumerate}[label = \roman*)]
+        \item Reflexive: $x \preceq x$. 
+        \item Antisymmetric: $x \preceq y \text{ and } y \preceq x \implies x = y$. 
+        \item Transitive: $x \preceq y \text{ and } y \preceq z \implies x \preceq z$.
+    \end{enumerate}
+    Then $(X, \preceq)$ is a partially ordered set.
+\end{definition}
+
+\begin{example}
+    We can say that $(\mathcal{P}(X), \subseteq)$ is a partially ordered set.
+    
+    We can also define on $\N$ the relation 
+    $$a \le b \iff a \text{ divides b}$$
+    Notice that in this case $2 \le 6$ but $2$ and $3$ are not comparable.
+\end{example}
+
+\begin{definition}
+    Given a partially ordered set $(X, \le)$ we say that $(X, \le)$ is totally ordered iff $\forall x, y \in X$ we have that 
+    $x \le y \text{ or } y \le x$.
+\end{definition}
+
+\begin{definition}
+    Given a partially ordered set $(X, \le)$, we say that $M \in X$ is a maximal element of $X$ iff 
+    $\forall a \in X$ s.t. $a \ge M$ then $a = M$. 
+
+    Let $A \subseteq X$ we say that $M \in X$ is an upper bound of $A$ iff $\forall a \in A$ we have 
+    $a \le M$.  
+\end{definition}
+
+\begin{example}
+    $\set{2,3,5, 30}$ with divisibility, then $30$ is an upper bound for this set. But if we take $A  =\set{2,3,5,6}$ as a subset of $\N$, then $30$ 
+    is an upper bound of $A$, but the maximal elements of $A$ are $5,6$. 
+\end{example}
+
+\begin{definition}
+    Let $(X, \le)$, be a partially ordered set. Then a chain $C$ of $X$ is totally ordered subset of $X$.
+\end{definition}
+
+\begin{theorem}[Zorn's Lemma]
+    Let $(X, \tau)$ be a nonempty partially ordered set such that  every chain in $X$ has an upper bound. Then $X$ has a maximal element. 
+\end{theorem}
+
+\begin{theorem}
+    Every vector space $V$ has a (Hamel) basis.
+\end{theorem}
+
+\begin{proof}
+    The empty set is a basis of the zero vector space. 
+    Suppose that $V \ne 0$, let $X$ be set the set of linearly independent subsets of $V$ ordered by inclusion. First notice that $X$ is nonempty 
+    because for any $v_0 \ne 0$ in $V$ we have that $\set{v_0}$ is linearly independent so $\set{v_0} \in X$. 
+    Let $\mathcal{C} = \set{C_\alpha}_{\alpha \in I}$ be a chain in $X$, then take 
+    $$C = \bigcup_{\alpha \in I} C_\alpha$$
+    We want to show that $C \in X$, i.e. that $C$ is L.I. Take $v_1, v_2, \cdots, v_n \in C$ with 
+    $$r_1 v_1 + r_2 v_2 + \cdots + r_n v_n = 0$$
+    But $v_i \in C_{\alpha_i}$ for some $\alph_i \in I$, since $C_{\alpha_i}$ are L.I, then by renumbering we can say 
+    $$C_{\alpha_1} \le C_{\alpha_2} \le \cdots \le C_{\alpha_n}$$
+    Therefore $v_1, v_2, \cdots, v_n \in C_{\alpha_n}$ hence 
+    $$r_1 = r_2 = \cdots = r_n = 0$$
+    Hence $C$ is an upper bound of $\mathcal{C}$. 
+
+    Then by Zorn's lemma $X$ has a maximal element $S$, so $S$ is linearly independent, we still need to show $\Span S = V$. Suppose it is not, $\exists w \in V \setminus \Span S$, 
+    then $S \cup \set{w}$ is linearly independent and $S < S \cup \set{w}$, contradiction. Therefore $S$ is a basis of $V$.  
+\end{proof}
+
 
 
 \end{document}
