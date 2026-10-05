@@ -1582,7 +1582,7 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     $$C = \bigcup_{\alpha \in I} C_\alpha$$
     We want to show that $C \in X$, i.e. that $C$ is L.I. Take $v_1, v_2, \cdots, v_n \in C$ with 
     $$r_1 v_1 + r_2 v_2 + \cdots + r_n v_n = 0$$
-    But $v_i \in C_{\alpha_i}$ for some $\alph_i \in I$, since $C_{\alpha_i}$ are L.I, then by renumbering we can say 
+    But $v_i \in C_{\alpha_i}$ for some $\alpha_i \in I$, since $C_{\alpha_i}$ are L.I, then by renumbering we can say 
     $$C_{\alpha_1} \le C_{\alpha_2} \le \cdots \le C_{\alpha_n}$$
     Therefore $v_1, v_2, \cdots, v_n \in C_{\alpha_n}$ hence 
     $$r_1 = r_2 = \cdots = r_n = 0$$
@@ -1592,6 +1592,163 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     then $S \cup \set{w}$ is linearly independent and $S < S \cup \set{w}$, contradiction. Therefore $S$ is a basis of $V$.  
 \end{proof}
 
+\begin{theorem}[Hahn-Banch]
+    Let $V$ normed vector space over $\R$ and $M$ supsace of $V$, and $f \colon M \to \R$ is a bounded linear functional. Then $\exists F \colon V \to \R$ bounded linear functional 
+    such that $F_{|M} = f$ and $\norm{F} = \norm{f}$
+\end{theorem}
+
+\begin{proof}
+    Let $X = \set{(h,D(h))}$ Where $D(h)$ is a subspace of $V$ containing $M$ and $h \colon D(h) \to \R$ a bounded linear functional, $h_{|M} = f$ and $\norm{h} = \norm{f}$ with the following partial ordered 
+    $$(h_1, D(h_1)) \le (h_2, D(h_2)) \iff D(h_1) \subseteq D(h_2) \text{ and } {h_2}_{D(h_1)} = h_1$$
+    Now clearly $X \ne \varnothing$ since $(f, M) \in X$. Now let $\mathcal{C} = \set{(h_\alpha, D(h_\alpha))}$ be a chain in $X$. Define 
+    $$D = \bigcup_{\alpha \in I} D(h_\alpha)$$
+    Then $M \subseteq D$, $D$ is a subspace of $V$ since for$ x,y \in D$ and $\lambda \in \R$ we have $x \in D(h_{\alpha_x})$ and $y \in D(h_{\alpha_y})$ but $\mathcal{C}$ is a chain so 
+    wlog we have 
+    $$(h_{\alpha_x}, D(h_{\alpha_x})) \le (h_{\alpha_y}, D(h_{\alpha_y}))$$
+    Hence $x, y \in D(h_{\alpha_y})$ subspace of $V$ and hence $x + \lambda y \in D(h_{\alpha_y}) \subseteq D$ so $D$ is a subspace of $V$. 
+    Now we define $h \colon D |to \R$ as follows, for $x \in D$, then $x \in D(h_{\alpha_x})$ for some $\alpha_x \in I$, we define 
+    $$h(x) = h_{\alpha_x}  (x)$$
+    \begin{itemize}
+        \item Well defined: If $x \in D(h_{\alpha_1}) \cap D(h_{\alpha_2})$ wlog we have $(h_{\alpha_1}, D(h_{\alpha_1})) \le (h_{\alpha_2}, D(h_{\alpha_2}))$ which gives us that 
+        $h_{\alpha_2}(x) = h_{\alpha_1}(x)$. 
+
+        \item $h$ is linear: this is because each $h_\alpha$ is linear.
+        \item $h$ is bounded: Take $x\in D$ then $x \in D(h_{\alpha_x})$ so 
+        $$\abs{h(x)} \le \norm{h_{\alpha_x}} \norm{x} \le \norm{f} \norm{x}$$
+        so $h$ is 
+    \end{itemize}
+    todo, Zorn's lemma stuff.
+\end{proof}
+
+\begin{lemma}
+    $V$ vector space over $\C$ and $f \colon V \to \C$ is linear $\iff f(x) = f_1(x) - if_1(ix)$ with $f_1 \colon V \to \R$ $\R$-linear. Moreover, $f$ is bounded iff $f_1$ is bounded with 
+    $$\norm{f}_* = \norm{f_1}_*$$ 
+\end{lemma}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$(\implies)$] $f \colon V \to \C$, then we can write $f(x) = f_1(x) + if_2(x)$ where $f_1, f_2 \colon V \to \R$. Therefore 
+        $$f_1(x) = \frac{f(x) + \overline{f(x)}}{2}$$
+        We want to show that $f_1$ is $\R$-linear, so take $\alpha \in \R$ and $x_1, x_2 \in V$ then 
+        \begin{align*}
+            f_1(x + \alpha y) &= \frac{f(x+ \alpha y) + \overline{f(x + \alpha y)}}{2} \\
+            &= \frac{f(x) + \alpha f(y) + + \overline{f(x)} + \overline{\alpha} \overline{f(y)}}{2} \\
+            &= \frac{f(x) + \overline{f(x)}}{2} + \alpha \frac{f(y) + \overline{f(y)}}{2} \\
+            &= f_1 (x) + f_1(y)
+        \end{align*}
+        Moreover since $f$ is linear we have that 
+        \begin{align*}
+            f(ix) &= i f(x) \\
+            f_1(ix) + if_2(x) &= if_1(x) - f_2(x) 
+        \end{align*}
+        Therefore $f_2(x) = if_1(ix)$, so 
+        $$f(x) = f_1(x)  - i f_1(ix)$$
+
+        \item[$\impliedby$] Easy.
+    \end{itemize}
+
+    For the moreover: 
+    \begin{itemize}
+        \item[$\implies$] $\abs{f_1(x)} \le \abs{f(x)} \le \norm{f}_* \norm{x}$ therefore $f_1$ is bounded with $\norm{f_1}_* \le \norm{f}_*$. Now 
+        take $x \in V$, so $\exists \Theta_x$ s.t. $f(x) = \abs{f(x)} e^{i \Theta_x}$, therefore 
+        \begin{align*}
+            \abs{f(x)} &= f(x) e^{- i \Theta_x} \\
+            &= f(e^{- i \Theta_x} x) \\
+            &= f_1(e^{- i \Theta_x} x) + i f_2 (e^{i \Theta_x} x)  
+        \end{align*}
+        Comparing real and imaginary parts, we get 
+        \begin{align*}
+            \abs{f(x)} = f_1(e^{- i \Theta_x} x) \\
+            &\le \norm{f_1}_* \norm{x}
+        \end{align*}
+        So 
+        $$\norm{f} \le \norm{f_1}$$
+
+        \item[$\impliedby$] easy. 
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}[Hahn-Banach] 
+    $V$ normed space over $\F \in \set{\R, \C}$ and $M$ subspace of $V$ and $f \colon M \to \F$ bounded linear functional. Then $\exists F \colon V \to \F$ bounded linear functional 
+    s.t. $F_{|M} = f$ and $\norm{F}_{V^*} = \norm{f}_{M^*}$.
+\end{theorem}
+
+\begin{proof}
+    If $\F = \R$, done. If $\F = \C$, write $f(x) = f_1(x) - if_1(ix)$ with $f_1 \colon M \to \R$, so we can extend to $F_1 \colon V \to \R$ with 
+    $$\norm{F_1} = \norm{f_1} =\norm{f}$$
+    Define 
+    $$F(x) = F_1(x) - iF_1(ix)$$ 
+\end{proof}
+
+\begin{corollary}
+    Take $x_0 \in V$ with $x_0 \ne 0$, then $\exists f \in V^*$ s.t. $\norm{f} = 1$ and $f (x_0) = \norm{x_0}$.
+\end{corollary}
+
+\begin{proof}
+    Take $M = \Span \set{x_0}$ with $g \colon M \to \F$ defined by 
+    $$g(tx_0) = t \norm{x_0}$$
+    Now take $x \in M$ so $x = tx_0$ then 
+    $$\abs{g(x)} = \abs{t \norm{x_0}} = \norm{tx_0} = \norm{x}$$
+    Therefore 
+    $$\norm{g}_* = 1$$
+    Apply Hahn-Banach.
+\end{proof}
+
+\textbf{Consequence:} If $V \ne \set{0}$, then $V^* \ne \set{0}$. 
+
+\begin{corollary}
+    $V \ne \set{0}$ normed space, and $x_0 \in V$. Then 
+    $$\norm{x_0} = \sup_{\substack{f \in V^* \\ \norm{f}_* 1}} \abs{f(x_0)} = \max_{\substack{f \in V^* \\ \norm{f}_* = 1}} \abs{f(x_0)}$$
+\end{corollary}
+
+\begin{proof}
+    Let $f \in V^*$ s.t. $\norm{f}_* = 1$, then 
+    $$\abs{f(x_0)} \le \norm{x_0} \implies \sup_{\substack{f \in V^* \\ \norm{f}_* = 1}} \abs{f(x_0)} \le \norm{x_0}$$
+    But by the corollary above we have that we can attain this sup. 
+\end{proof}
+
+\begin{corollary}
+    $x \ne y$ in $V$, then $\exists f \in V^*$ s.t. $f(x) \ne f(y)$.
+\end{corollary}
+
+\begin{proof}
+    $x \ne y$, so $x-y \ne 0$ in $V$. So by the above, $\exists f \in V^*$ s.t. 
+    $$f(x-y) = \norm{x-y} = f(x) - f(y)$$
+    as desired.
+\end{proof}
+
+\begin{corollary}
+    $V$ vector space over $\F$ and $M$ proper closed subspace of $V$, and $x_0 \not\in M$ then $\exists f \in V^*$ s.t. $f_{|M} = 0$ and $f(x_0) = 1$.
+\end{corollary}
+
+\begin{proof}
+    Let $g \colon M \oplus \Span \set{x_0} \to \F$ s.t. 
+    $$g(m + tx_0) = t$$
+    Then $g(x_0) = 1$ and clearly linear. Moreover take $x = m + tx_0$, with $\norm{x} = 1$, then for $t \ne 0$ we have 
+    \begin{align*}
+        \norm{x} &= 1 \\
+        \abs{t} \norm{m/t + x_0} &= 1 \\
+        \abs{t} &\le \frac{1}{d(x_0, M)}
+    \end{align*} 
+    for $t = 0$ we have $g(m) = 0$, so 
+    $$\abs{g(x)} \le \frac{1}{d(x_), M}, \quad \forall x \in M \oplus \Span \set{x_0}$$
+    Then $g$ is bounded, and $g_{|M} = 0$ and $g(x_0) = 1$. We Can extend by Hahn-Banach to some $f \in V^*$. 
+\end{proof}
+
+\begin{example}
+    Let $x \in V$ with $f(x) = 0, \ \forall f \in V^*$. Then $x=0$. This is because 
+    $$\norm{x} = \max_{\substack{f \in V^* \\ \norm{f} = 1}} \abs{f(x)}$$
+
+    Now take $\varphi \colon (\ell^1) \to (\ell^\infty)^*$, so 
+    $$\varphi(x) \colon b \to \sum_{n=1}^\infty b_n x_n$$
+    with $b \in \ell^\infty$, then $\varphi$ is not surjective. This is because $C_0$ is a closed subspace of $\ell^\infty$, and $1 = (1,1,\cdots) \in \ell^\infty \setminus C_0$, 
+    then $\exists T \in (\ell^\infty)^*$ s.t. $T_{|C_0} = 0$ and $T(1)= 1$. Suppose that $\varphi$ is surjective, then $\exists x \in \ell^1$ s.t. $\varphi(x) = T$. 
+    So 
+    $$Tb = \sum_{n=1}^\infty b_n x_n, \quad \forall b \in \ell^\infty$$
+    Then since $e_i \in C_0$
+    $$Te_i = x_i = 0$$
+    So $x = 0$, hence $T = 0$, contradiction.
+\end{example}
 
 
 \end{document}
