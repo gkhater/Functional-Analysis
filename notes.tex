@@ -1750,5 +1750,87 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     So $x = 0$, hence $T = 0$, contradiction.
 \end{example}
 
+\begin{example}
+    $V, W$ normed space and $V \ne \set{0}$, then $B(V, W)$ is Banach $\iff$ $W$ is Banach.    
+
+    We already know $\impliedby$. Let $w_n$ be a Cauchy sequence in $W$. Take $v_0 \in V$ s.t. $\norm{v_0} = 1$, then $\exists f \in V^*$ with $\norm{f}_* = 1$ and 
+    $f(v_0) = 1$. Now $w \in W$, define $T_w \colon V \to W$ given by 
+    $$T_w (x) = f(x) \cdot w$$
+    Now $T_w$ is linear, and 
+    $$\norm{T_w x}_W = \abs{f(x)} \norm{w} \le \norm{x}_V \norm{w}_W$$
+    Since this holds for all $x \in V$, we have $T_w \in B(V,W)$ and 
+    $$\norm{T_w} \le \norm{w}$$
+    Moreover, 
+    \begin{align*}
+        \norm{T_w v_0} &= \abs{f(x_0)} \norm{w} \\
+        &= \norm{w}
+    \end{align*}
+    with $\norm{v_0} = 1$, so 
+    $$\norm{T_w} = \norm{w}$$
+    i.e $w \to T_w$ is an isometry. Now since $w_n$ is Cauchy in $W$, then $Tw_n$ is Cauchy in $B(V,W)$, so $Tw_n$ converges to some $T$ in $B(V,W)$. 
+    Take $w = Tv_0$, now notice that 
+    \begin{align*}
+        \norm{w_n - w} &= \norm{f(v_0) w_n - f(v_0) w} \\
+        &= \norm{T_{w_n} (v_0) - T (v_0)} \\
+        &\le \norm{T_{w_n} - T} 
+    \end{align*}
+    Therefore $w_n \to w$.
+\end{example}
+
+\begin{proposition}
+    $V$ normed space, if $V^*$ is separable, then $V$ is separable.
+\end{proposition}
+
+\begin{remark}
+    Note that the converse isn't true since $\ell^1$ is separable and $(\ell^1)^* = \ell^\infty$ is not.
+\end{remark}
+
+\begin{corollary}
+    $(\ell^\infty)^*$ is not isometrically isomorphic to $\ell^1$.
+\end{corollary}
+
+\begin{proof}
+    $V^*$ is separable, then $V^*$ has a countable dense subset $\set{f_n}$. Now 
+    \begin{align*}
+        \norm{f_n} &= \sup_{\substack{x \in V \\ \norm{x} = 1}} \abs{f_n (x)}
+    \end{align*}
+    So $\exists x_n \in V$ with $\norm{x_n} = 1$ and 
+    $$\frac{\norm{f_n}_*}{2} \le \abs{f_n(x_n)} \le \norm{f_n}_*$$
+    Let $M = \Span \set{x_n}$, we claim that $\overline{M} = V$. 
+    Suppose not, then $\exists x_0 \in V$ and $x_0 \not\in \overline{M}$, therefore $\exists f \in V^*$ with $f(x_0) = 1$ and $f_{|\overline{M}} = 0$,
+    therefore $f(x_n) = 0$ $\forall n$. We want to show that this implies that $f = 0$. Let $\varepsilon > 0$, and $\exists N$ s.t. 
+    \begin{align*}
+        \norm{f_N - f} < \varepsilon/3
+    \end{align*}
+    So for $\norm{x} = 1$, 
+    \begin{align*}
+        \abs{f(x)} &\le \abs{f(x) - f(x)} + \abs{f_N(x)} \\
+        &\le \norm{f - f_N} + \norm{f_N} \\
+        &\le \norm{f -f_N} + 2 \abs{f_N(x_N)} \\
+        &= \norm{f -f_N} + 2 \abs{f_N(x_N) - f(x_N)} \\
+        &\le \norm{f -f_N} + 2 \norm{f - f_N} \\
+        &< \varepsilon
+    \end{align*}
+    Therefore 
+    $$\abs{f(x)} = 0 \implies \norm{f} = 0$$
+    Hence $f = 0$, contradiction.
+
+    Now $\overline{\Span \set{x_n}} = V \implies \overline{\Span_\Q \set{x_n}} = V$ so $V$ is separable. 
+\end{proof}
+
+\subsection{Adjoint Linear Transformation} 
+
+\begin{definition}
+    $V_1, V_2$ normed space and $T \colon V_1 \to V_2$ a bounded linear transformation. We define the adjoint of $T$ to be a map 
+    $$T^* \colon V_2^* \to V_1^*, \quad (T^* f)  (x) =  f \circ T$$ 
+
+    Moreover, we can show that $T^*$ is bounded, with 
+    $$\norm{T^*} = \norm{T}$$
+\end{definition}
+
+\begin{remark}
+    In the moreover use Hahn-Banach.
+\end{remark}
+
 
 \end{document}
