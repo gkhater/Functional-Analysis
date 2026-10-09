@@ -1832,5 +1832,144 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     In the moreover use Hahn-Banach.
 \end{remark}
 
+\begin{remark}
+    We have that 
+    $$(T^* f, x)_{V_1^*, V_1} = (f, Tx)_{V_2^*, V_2}$$
+    With $T^* \in \mathcal{L}(V_2^*, V_1^*)$, moreover 
+    $$T \in B(V_1, V_2) \iff T^* \in B(V_2^*, V_1^*), \quad \norm{T^*} = \norm{T}$$
+    Now 
+    $$(T + \alpha S)^* = T^* + \alpha S^*, \quad \alpha \in \F$$
+    And 
+    $$(T \circ S)^* = S^* \circ T^*$$ 
+    In the homework we prove that $T$ is an isomorphism iff $T^*$ is an isomorphism. 
+\end{remark}
+
+\begin{example}
+    The Right-Shift operator 
+    $$R \colon \ell^1 \to \ell^1, \ (x_1, x_2, \cdots) \to Rx = (0, x_1, x_2, \cdots)$$
+    With $\norm{R} = 1$, we want to find $R^*$. We know that 
+    $$R^* \colon (\ell^1)^* \to (\ell^1)^*$$
+    Take $f \in (\ell^1)^*$, so there exists $b \in \ell^\infty$ s.t. 
+    $$f(x) = \sum_{i=1}^\infty b_n x_n := f_b(x)$$
+    Now 
+    \begin{align*}
+        (R^*f, x)_{(\ell^1)^*, \ell^1} &= (f_b, Rx) \\
+        &= b_2 x_1 + b_3 x_2 + \cdots \\
+        &= \sum_{i=1}^\infty b_{n+1} x_n 
+    \end{align*}
+    Therefore 
+    $$R^* f_b = f_{(b_2, b_3, \cdots)} = f_{L(b)}$$
+    Abusing notation we can say that 
+    $$R^* b = L b$$    
+\end{example}
+
+\subsection{Reflexive Spaces}
+
+\begin{definition}
+    Let $V$ a normed space and $V^*$ be the dual of $V$, $B(V, \F)$ and $V^{**}$ the dual of $V^*$ $B(V^*, \F)$. Define the canonical map (the evaluation map)
+    $$J_V \colon V \to V^{**}, \ (J_V x)  (f) = f(x)$$
+    i.e. 
+    $$(J_1 x, f)_{V^{**}, V^*} = (f, x)_{V^*, V}$$
+\end{definition}
+
+\begin{itemize}
+    \item $J_V$ is linear: 
+    \begin{align*}
+        (J_V(x + \alpha y), f) &= f(x + \alpha y) \\
+        &= f(x) + \alpha f(y) \\
+        &= (J_V x, f) + \alpha (J_V y, f)
+        &= (J_V(x) + \alpha J_V (y), f)
+    \end{align*}
+
+    \item \begin{align*}
+        \norm{J_V x}_{V^{**}} &= \sup_{\substack{f \in V^{*} \\ \norm{f}_* = 1}} \abs{(J_V x, f)} \\
+        &= \sup_{\substack{f \in V^* \\ \norm{f}_* = 1}} \abs{f(x)} \\ 
+        &= \norm{x}
+    \end{align*}
+    Where the last equality is by Hahn-Banach, so $J_V$ is an isometry. 
+    Therefore 
+    $$V \cong J_V(V)$$
+    Therefore $V^**$ contains an isomorphic copy of $V$. 
+\end{itemize}
+
+\begin{definition}
+    We say that $V$ is reflexive iff $J_V$ is surjective. 
+\end{definition}
+
+\begin{remark}
+    All reflexive spaces are Banach.
+\end{remark}
+
+\begin{example}
+    \begin{itemize}
+        \item $\ell^1$ is not reflexive, since if it was reflexive, then $(\ell^1)^{**} \cong \ell^1$, but 
+        $(\ell^1)^{**} \cong (\ell^\infty)^*$ but this would mean that $\ell^\infty$ is separable, contradiction. 
+
+        \item $\ell^p$ is reflexive for $1 < p < \infty$. Let 
+        $$J_p \colon \ell^p \to (\ell^p)^{**}$$
+        We want to show that this is surjective with 
+        \begin{align*}
+            (J_p x, f) &= (f, x)\\
+            &= \sum_{n=1}^\infty b_n x_n \\
+            &= \sum_{n=1}^\infty x_n b_n \\
+            &= (f_x, b)_{(\ell^q)^*, \ell^q} \\
+            &= (J_q b, f_x)_{(\ell^q)^{**}, (\ell^q)^*} 
+        \end{align*}
+        Take $\xi \in (\ell^p)^{**}$, now 
+        \begin{align*}
+            \xi \colon (\ell^p)^* \to \R 
+        \end{align*}
+        and we have some isomorphism $\varphi \colon \ell^q \to (\ell^p)^*$ with $\varphi(b) = f_b \colon x \in \ell^p \to \sum b_n x_n$. 
+        Now we have an isomorphism
+        $$\varphi^* \colon (\ell^p)^{**} \to (\ell^q)^*$$
+        Now 
+        \begin{align*}
+            \varphi^* (\xi) \in (\ell^q)^*
+        \end{align*} 
+        so $\exists x \in \ell^p$ s.t. $\varphi^*(\xi) \colon b \in \ell^q \to \sum b_n x_n$. Now we need to show that 
+        $$J_p (x) = \xi$$
+        Indeed, for $f \in (\ell^p)^*$ we have 
+        \begin{align*}
+            (\xi, f) &= (\xi, \varphi(b)) \\
+            &= (\varphi^* \xi, b) \\
+            &= \sum b_n x_n \\
+            &= \sum x_n b_n \\
+            &= f_b (x) \\
+            &= (J_V x, f_b) \\
+            &= (J_Vx , f)
+        \end{align*}
+    \end{itemize}
+\end{example}
+
+
+\begin{lemma}%Note: AI-Generated.
+    Let $V_1,V_2$ be normed vector spaces and let
+    $T:V_1\to V_2$ be a bounded linear operator.
+    Then the following diagram commutes:
+    \[
+    \begin{tikzcd}
+        V_1 \arrow[r, "T"] \arrow[d, "J_{V_1}"']
+        & V_2 \arrow[d, "J_{V_2}"] \\
+        V_1^{**} \arrow[r, "T^{**}"']
+        & V_2^{**}
+    \end{tikzcd}
+    \]
+    That is,
+    \[
+        T^{**}\circ J_{V_1}=J_{V_2}\circ T.
+    \]
+
+    Moreover, if $T$ is a bounded linear isomorphism
+    with bounded inverse, then $T^*$ is also an
+    isomorphism and
+    \[
+        (T^*)^{-1}=(T^{-1})^*.
+    \]
+\end{lemma}
+
+
+\begin{corollary}
+    If $V_1 \cong V_2$, then $V_1$ is reflexive $\iff$ $V_2$ is reflexive. 
+\end{corollary}
 
 \end{document}
