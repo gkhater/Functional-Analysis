@@ -1967,9 +1967,115 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
     \]
 \end{lemma}
 
+\begin{proof}
+    Let $x \in V_1$ and $g \in V_2^*$, then 
+    \begin{align*}
+        (T^{**} \circ J_{V_1} x, g)_{V_2^{**}, V_2^*} &= (J_{V_1}x, T^* g)_{V_1^{**}, V_1^*} \\
+        &= (T^*g, x)_{V_1^*, V_1} \\
+        &= (g, Tx)_{V_2^*, V_2} \\
+        &= (J_{V_2} (Tx), g)_{V_2^{**}, V_2^*}
+    \end{align*}
+    Therefore 
+    $$(T^{**} \circ J_{V_1}) (x) = (J_{V_2} \circ T) (x)$$
+    Since this holds for every $x \in V_1$, we get the desired result.
+\end{proof}
 
 \begin{corollary}
     If $V_1 \cong V_2$, then $V_1$ is reflexive $\iff$ $V_2$ is reflexive. 
 \end{corollary}
+
+\begin{lemma}
+    A closed subspace of a reflexive space is reflexive. 
+\end{lemma}
+
+\begin{proof}
+    Let $V$ be a reflexive space, and $M$ closed subspace of $V$ - wlog we take $M$ to be proper. Consider the canonical embedding 
+    $$J_V \colon V \to V^{**}, \quad J_M \colon M \to M^{**}$$
+    and we know that $J_V$ is surjective, we want to show that $J_M$ is surjective. Let $\xi \in M^{**}$, i.e. 
+    $\xi \colon M^* \to \F$. Define $\eta \colon V^* \to \F$ a linear functional with 
+    \begin{align*}
+        \eta(f) &= \xi(f_{|M}) 
+    \end{align*}
+    Note that 
+    \begin{align*}
+        \abs{\xi(f)} &= \abs{\xi(f_{|M})} \\
+        &\le \norm{\xi} \norm{f_{|M}} \\
+        &\le \norm{\xi} \norm{f}
+    \end{align*}
+    Hence $\eta \in V^{**}$ (with $\norm{\eta} = \norm{\xi}$). Therefore since $J_V$ is surjective, $\exists x_0 \in V$ with 
+    $J_V x_0 = \eta$. We claim that $x_0 \in M$. Assume not, then since $M$ is closed $\exists f \in V^{**}$ with 
+    $f_{|M} = 0, \quad f(x_0) = 1$. But 
+    \begin{align*}
+        (J_{V} x_0, f) &= f(x_0) \\
+        (\eta, f) &= 1 \\
+        (\xi, f_{|M}) &= 1\\
+        0 &= 1
+    \end{align*}
+    Contradiction. We still need to show that $J_M (x_0) = \xi$. Let $h \in M^*$, let $H$ be a Hahn-Banach extension to $V^*$. 
+    \begin{align*}
+       (J_M x_0, h) &= (J_V x_0, H) \\
+       &= (\eta, H) \\
+       &= (\xi, H_{|M}) \\
+       &= (\xi, h)
+    \end{align*} 
+\end{proof}
+
+
+\begin{lemma}
+    Let \(V\) be a normed space, and consider the canonical maps
+    \[
+        J_V \colon V \to V^{**}, \qquad
+        J_V^* \colon V^{***} \to V^*, \qquad
+        J_{V^*} \colon V^* \to V^{***}.
+    \]
+    Then the following diagram commutes:
+    \[
+    \begin{tikzcd}
+        V^* \arrow[r, "J_{V^*}"]
+            \arrow[dr, "\operatorname{id}_{V^*}"']
+        & V^{***} \arrow[d, "J_V^*"] \\
+        & V^*
+    \end{tikzcd}
+    \]
+    That is,
+    \[
+        J_V^* \circ J_{V^*} = \operatorname{id}_{V^*}.
+    \]
+    In particular, \(J_V^*\) is always surjective.
+\end{lemma}
+
+
+\begin{proof}
+    Let $f \in V^*$, let $\xi := J_{V^*} f \in V^{***}$. 
+    \begin{align*}
+        ((J_V^* \circ J_{V^*}) f, x)_{V^*, V} &= (J_{V^*}f, J_V^*x)_{V^*, V^{**}} \\
+        &= (J_Vx, f) \\
+        &= (f, x)
+    \end{align*} 
+    Therefore 
+    $$J_V^* \circ J_{V^*} (f) = f$$
+    as desired.   
+\end{proof}
+
+\begin{theorem}
+    $V$ reflexive $\iff$ $V$ Banach and $V^*$ reflexive.
+\end{theorem}
+
+\begin{corollary}
+    We have that $\ell^\infty \cong (\ell^1)^*$, if $\ell^\infty$ is reflexive then $(\ell^1)^*$ is reflexive with $\ell^1$ Banach. Therefore $\ell^1$ is reflexive, contradiction.
+\end{corollary}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] $V$ reflexive then $J_V$ is an isometric isomorphism, therefore so is $J_V^*$. From the last lemma we get that $J_{V^*}$ is also an 
+        isometric isomorphism. So $V^*$ is reflexive. We already know that $V$ is Banach by reflexive.
+
+        \item[$\impliedby$] Let $V$ Banach with $V^*$ reflexive. Then by the above $V^{**}$ is reflexive, but we have that $V \cong J(V)$ subspace of $V^{**}$.
+        It is enough to show that $J(V)$ is closed. But $V$ is Banach and $J$ is an isometry, therefore $J(V)$ is also Banach and hence closed.
+    \end{itemize}
+\end{proof}
+
+%TODO look at closed graph theorem
+%For the exam we have till here. 
 
 \end{document}
