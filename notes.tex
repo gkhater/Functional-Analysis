@@ -2078,4 +2078,257 @@ $$\norm{\tilde{T} x} \le \norm{T} \cdot \norm{x} \implies \norm{\tilde{T}} \le \
 %TODO look at closed graph theorem
 %For the exam we have till here. 
 
+\section{Pillars of Functional Analysis}
+
+\subsection{Uniform Boundedness Principle.} 
+
+\begin{theorem}[Uniform Boundedness Principle]
+   $V$ is a Banach space and $W$ a normed space. Now let $\mathcal{T_\alpha}_{\alpha \in I}$ a family of bounded linear transformations $V \to W$ that are pointwise bounded, i.e. 
+   $$\sup_{\alpha \in I} \norm{T_\alpha x} < \infty$$
+   Then $\set{T_\alpha}$ is uniformly bounded, that is $\exists M > 0$ s.t. 
+   $$\norm{T_\alpha}_* < M, \quad \forall \alpha \in I$$
+   In other words, 
+   $$\norm{T_\alpha x} < M \norm{x}, \quad \forall x \in V, \ \forall \alpha \in I$$ 
+\end{theorem}
+
+\begin{proof}
+    For every $n \in \N$, let $E_n = \set{x \in V \colon \norm{T_\alpha x} \le n \ \forall \alpha \in I}$, clearly $E_n$ is closed since we can write 
+    $$E_n = \bigcap_{\alpha \in I} \set{x \in V \colon \norm{T_\alpha x}} \le n$$
+    Now for every $x \in V$, we have $\sup_{\alpha \in I} \norm{T_\alpha x} < \infty$ so there exists $N := N_x $ s.t. 
+    $$\norm{T_\alpha x} \le N_x, \quad \forall x \in V$$
+    Therefore $x \in E_{N_x}$. Hence 
+    $$V = \bigcup_{n=1}^\infty E_n$$ 
+    With $V$ Banach. Then by BCT, $\exists n_0$ s.t. $E_{n_0}$ contains nonempty interior, i.e. $\exists x_0 \in V$ and $r_0 > 0$ s.t. 
+    $$B(x_0, r_0) \subseteq E_{n_0}$$
+    Now let $x \in V$ s.t. $\norm{x} = 1$, take $y = x_0 + \frac{r_0}{2} x$ then 
+    $$y \in B(x_0, r_0) \subseteq E_{n_0}$$
+    We can write 
+    $$x = \frac{2}{r_0} (y - x_0)$$
+    So $\forall x$ with $\norm{x} = 1$ we have 
+    \begin{align*}
+        \norm{T_\alpha x} &= \frac{2}{r_0} \norm{T_\alpha y - T_\alpha x_0} \\
+        &\le \frac{2}{r_0} \left(\norm{T_\alpha y} + \norm{T_\alpha x_0}\right) \\
+        &\le \frac{4 n_0}{r_0}
+    \end{align*}
+    Hence we get 
+    $$\norm{T_\alpha} \le \frac{4 n_0}{r_0}, \quad \forall \alpha \in I$$ 
+\end{proof}
+
+\begin{corollary}
+    $V$ Banach, $W$ normed space and $T_n$ a sequence in $B(V, W)$ that converges pointwise to some $T$. 
+    \begin{enumerate}[label = \roman*)]
+        \item $T_n$ are uniformly bounded. 
+        \item $T \in B(V, W)$ with $\norm{T} \le \liminf_{n \to \infty} \norm{T_n}$
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    Take $x \in V$, since $T_n x$ converges in $W$ it is bounded. Therefore by the uniform boundedness principle we have that $T_n$ is uniformly bounded. 
+    Now we have that 
+    \begin{align*}
+        T_n x \le M \norm{x}
+    \end{align*}
+    Let $n \to \infty$, we get that $T \in B(V, W)$. Moreover, we know that 
+    $$\norm{T_n} x \le \norm{T_n} \cdot \norm{x}$$
+    Therefore 
+    $$\norm{T_n} x = \liminf \norm{T_n} x \le \liminf \norm{T_n} \norm{x}$$
+\end{proof}
+
+\begin{example}
+    $V$ normed space and $A \subseteq V$ s.t. $\set{f(x) \colon x \in A}$ is bounded in $\F$ $\forall f \in V^*$. then $A$ is bounded in $V^*$.
+    For every $x \in A$ we define $T_x \colon V^* \to \F$ by $T_x f = f(x)$. Now $\set{T_x}_{x \in A}$ is pointwise bounded s.t. for every $f \in V^*$ we have 
+    $$\norm{T_x f} = \norm{f(x)} \le M_f$$
+    With $V^*$ Banach, therefore $\set{T_x}$ is uniformly bounded. Therefore $\exists M > 0$ s.t. $\forall x \in A$
+    \begin{align*}
+        \norm{T_x} &\le M \\
+        \sup_{\substack{f \in V^* \\ \norm{f}_* = 1}} \norm{T_x f} &\le M \\
+        \sup_{\substack{f \in V^* \\ \norm{f}_* = 1}} &\le M \\
+        \norm{x} &\le M 
+    \end{align*}
+    Since this holds for every $x \in A$ we get that $A$ is bounded. 
+\end{example}
+
+\begin{example}
+    Let $1 < p < \infty$, given a sequence $x = (x_1, x_2, \cdots)$ s.t. $\sum_{n=1}^\infty x_n y_n$ converges for all $y \in \ell^p$. Then $x \in \ell^q$ where $\frac{1}{p} + \frac{1}{q} = 1$. 
+    Take $T_N \colon \ell^p \to \F$ given by 
+    $$T_N y = \sum_{n=1}^N x_n y_n $$
+    We know that $T_N$ is bounded since 
+    \begin{align*}
+        \abs{T_N y} &= \abs{\sum_{n=1}^N x_n y_n} \\
+        &\le \left(\sum_{n=1}^N \abs{x_n}^q\right)^{1/q} \norm{y}_p 
+    \end{align*}
+    Therefore $T_N \in (\ell^p)^*$ by the given we have $T_N \to T (\ell^p)^*$. Then $\exists b \in \ell^q$ s.t. 
+    $$Ty = \sum_{n=1}^\infty b_n y_n = \sum_{n=1}^\infty x_n y_n$$
+    Take $y = e_i$, $b_i = x_i$. 
+\end{example}
+
+\begin{example}
+    $V$ is Banach, and $A \subseteq V^*$ s.t. $\forall x \in V$ we have $\set{f(x) \colon f \in A}$ is bounded, then $A$ is bounded in $V^*$. 
+    For every $f \in A$, define the map $T_f \colon V \to V^*$ defined by 
+    $$T_f (x) = f(x)$$
+    Now $\set{T_f}_f$ is pointwise bounded with $V$ Banach so it is uniformly bounded. Therefore $\set{T_f}$ is bounded in $V^*$.
+\end{example}
+
+\subsection{The Open Mapping Theorem}
+
+\begin{remark}
+    \begin{itemize}
+        \item $T(A+ \alpha B) = T(A) + \alpha T(B)$. 
+        \item $\overline{\alpha A} = \alpha \overline{A}$.
+        \item $\overline{A} + \overline{B} \subseteq \overline{A+B}$. 
+        \item $B(x, R) = x + RB(0,1)$.
+    \end{itemize}
+\end{remark}
+
+\begin{theorem}[Open Mapping Theorem]
+    Let $V$ and $W$ Banach and $T \in B(V, W)$ surjective. Then $0_W$ is an interior point of $T(B_V(0,1))$. Consequently $T$ is an open map. 
+\end{theorem}
+
+\begin{proof}
+    \textbf{Step 1.} $\exists r > 0$ s.t. $B_W(0, r) \subseteq \overline{T(B_V(0,1))}$. Now $T$ is surjective, so we can write 
+    $$W = T(V) = \bigcup_{n=1}^\infty \overline{T(B_V(0,n))}$$
+    Now $\overline{T(B_V(0,n))}$ are closed in $W$, a Banach space. Therefore by BCT, $\exists n_0$ s.t. $\overline{T(B_V(0, n_0))}$ has nonempty interior. 
+    But 
+    \begin{align*}
+        \overline{T(B_V(0, n_0))} &= n_0 \overline{T(B_V(0,1))}
+    \end{align*}
+    Which contains an open ball. Now $\overline{T(B_V(0,1))}$ contains a ball $B_W(y, R)$. So we have that 
+    \begin{align*}
+        B(y, R) &\subseteq \overline{T(B_V(0,1))} \\
+        y + B(0, R) &\subseteq \overline{T(B_V(0,1))} \\
+        B(0, R) &\subseteq \overline{T(B_V(0,1))} - y \\
+        &\subseteq \overline{T(B_V(0,1))} + \overline{T(B_V(0,1))} \\
+        &\subseteq \overline{T(B_V(0,2))} \\
+        &= 2 \overline{T(B_V(0,1))}  
+    \end{align*}
+    Therefore 
+    $$\frac{1}{2} B(0, R) \subseteq \overline{T(B_V(0,1))}$$
+
+    \textbf{Step 2.} If $B_W(0, R) \subseteq \overline{T(B_V(0,1))}$ then $B_W(0, r) \subseteq T(B_V(0, 2))$. Therefore 
+    $$B_W(0, r/2) \subseteq T(B_V(0,1))$$ 
+    i.e. $0_W$ is an interior point of $T(B_V(0,1))$.\\ 
+    We have that $B_W(0, r) \subseteq \overline{T(B_V(0,1))}$, take $y \in B_W(0, r)$. Therefore $y \in \overline{T(B_V(0,1))}$, so $\exists x_1 \in B_V(0,1)$ ($\norm{x_1} < 1$) s.t. 
+    $\norm{y-Tx_1}_W < r/2$. Therefore $y - Tx_1 \in B(0, r/2) \subseteq \overline{T(B_V(0,1/2))}$, then $\exists x_2$ s.t. $\norm{x_2} < 1/2$ and 
+    $\norm{(y - Tx_1) - Tx_2} < r/2^2$. Recursively, we construct a sequence $x_n$ s.t. $\norm{x_n} < 1/2^{n-1}$ and $\norm{y - (Tx_1 + \cdots + Tx_n)} < r/2^n$. 
+    But $\sum \norm{x_n} < \infty$ therefore since $V$ is Banach we have that $\sum x_n$ converges to some $x \in V$. Then by continuity of $T$ we have that 
+    \begin{align*}
+        T(x) &= T \left(\sum x_n\right) \\
+        &= \sum T(x_n) \\
+        &= y
+    \end{align*}  
+    But we have that 
+    \begin{align*}
+        \norm{x} &\le \sum_{n=1}^\infty \norm{x_n} \\
+        &< \sum \frac{1}{2^{n-1}} \\
+        &= 2
+    \end{align*}
+    Then $y \in T(B_V(0,2))$. 
+
+    \textbf{Step 3.} $T$ is an open map. Let $U$ be open in $V$, we want to show that $T(U)$ is open in $W$. Take $y \in T(U)$, then $\exists x \in U$ s.t. $y = Tx$ 
+    but $U$ is open so $\exists r > 0$ with 
+    $$B(x, r) \subseteq U$$
+    Therefore 
+    $$y \in T(B(x, r)) \subseteq T(U)$$
+    But we have that 
+    \begin{align*}
+        B(x, r) &= x + B(0, r) \\
+        &= x + r B(0, 1) 
+    \end{align*}
+    So 
+    \begin{align*}
+        TB(x, r) &= y + r T(B(0,1)) 
+    \end{align*}
+    Now $0_W$ is an interior point of $T(B(0,1))$, then $\exists c > 0$ s.t. $B(0, c) \subseteq T(B(0, 1))$. Then 
+    $$B_W(y, rC)= y + rB_W(0, c) \subseteq y + rT (B(0, 1)) \subseteq T(U)$$ 
+\end{proof}
+
+\begin{corollary}[Inverse function Theorem]
+    Let $V, W$ Banach and $T \in B(V,W)$ bijective then $T^{-1} \in B(W,V)$. 
+\end{corollary}
+
+\begin{proof}
+    $T$ is open, then $T^{-1}$ continuous. 
+\end{proof}
+
+\begin{corollary}
+    Let $\norm{\cdot}_a, \ \norm{\cdot}_b$ norms on $V$ s.t. $(V, \norm{\cdot}_a)$ and $(V, \norm{\cdot}_b)$ are Banach and $\exists c$ s.t. 
+    $$\norm{x}_b \le c \norm{x}_a$$
+    Then the norms are equivalent. 
+\end{corollary}
+
+\begin{proof}
+    Let $\operatorname{id} \colon \colon V_a \to V_b$, this is continuous so $\operatorname{id}_V \in B(V_a, V_b)$ and bijective - so its inverse is also continuous. 
+    Therefore $\exists M$ s.t. 
+    $$\norm{x}_a = M \norm{x}_b$$     
+\end{proof}
+
+\subsection{The Closed Graph Theorem}
+
+\begin{definition}
+    Let $(X, \tau_x)$ and $(Y, \tau_y)$ topological spaces, and $f \colon X \to Y$. Then 
+    $$\mathcal{G}(f) = \set{(x, f(x)) \colon x \in X} \subseteq (X \times Y, \tau_x \times \tau_y)$$
+\end{definition}
+
+\begin{proposition}
+    If $Y$ is Hausdorff and $f$ is continuous, then $\mathcal{G}(f)$ is closed. 
+\end{proposition}
+
+\begin{proof}
+    Take $(x, y) \in \mathcal{G}(f)^c$, then $y \ne f(x)$ and $Y$ is Hausdorff. Therefore $\exists V_y, V_{f(x)}$ open in $Y$ s.t. 
+    $$V_y \cap V_{f(x)} = \varnothing$$
+    But $f$ is continuous, therefore $\exists U_x \ni x$ open s.t. 
+    $$f(U_x) \subseteq V_{f(x)}$$
+    Hence 
+    \begin{align*}
+        U_x \times V_y \subseteq \mathcal{G}(f)^c
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{remark}
+    In the particular case of normed spaces we have $(V, \norm{\cdot}_V)$ and $(W, \norm{\cdot}_W)$ normed spaces with $(V \times W, \norm{\cdot}_{V \times W})$ define as follows: 
+    $$\norm{(v, w)} = \norm{v} + \norm{w}$$
+    \begin{enumerate}
+        \item If $V$ and $W$ are Banach then $V \times W$ is also Banach. 
+        \item If $T \colon V \to W$ in $L(V, W)$, then $\mathcal{G}(T)$ is a subspace of $V \times W$. 
+    \end{enumerate}
+\end{remark}
+
+\begin{example}
+    Take $\frac{d}{dx} \colon (C^1([0,1]), \norm{\cdot}_\infty) \to (C([0,1]), \norm{\cdot}_\infty)$. Then 
+    $$\mathcal{G} (\frac{d}{dx}) = \set{(f, f') \colon f \in C^1([0,1])}$$
+    Now take $(f_n, f_n') \to (f, g)$ with $f \in C^1([0,1]), \ g_n \in C([0,1])$, then $f_n \to f$ and $f_n' \to g$ uniformly, then $f' = g$. Therefore 
+    $(f, g) \in \mathcal{G}(\frac{d}{dx})$ but $\frac{d}{dx}$ is not continuous.
+\end{example}
+
+\begin{theorem}[Closed Graph Theorem]
+    $V,W$ Banach spaces with $T \in \mathcal{L}(V, W)$, then $T \in B(V, W) \iff \mathcal{G}(T)$ is closed in $V \times W$.
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item[($\implies$)] Always true since $W$ is a metric space (so Hausdorff). 
+        \item[($\impliedby$)] $\mathcal{G}(T)$ is closed in $V \times W$, which is Banach - therefore $\mathcal{G}(T)$ is Banach. We define 
+        $$\pi_1 \colon \mathcal{G}(T) \to V, \quad \pi_1(x, Tx) = x$$
+        Clearly this is a bijective L.T with 
+        $$\norm{\pi_1(x, Tx)} = \norm{x} \le \norm{(x, Tx)}$$
+        Therefore $\pi_1$ is bounded, so by IFT we get that $\pi^{-1}$ is bounded. Then $\exists M > 0$ s.t. 
+        $$\norm{Tx} \le \norm{(x, Tx)} = \norm{\pi_1^{-1}(x)}_{V \times W} \le M \norm{x}$$
+        Therefore $T$ is bounded. 
+    \end{itemize}
+\end{proof}
+
+\begin{example}
+    Let $V$ and $W$ Banach, and $T \in \mathcal{L}(V, W)$ such that for every $S \in W^*$ we have $S \circ T \in V^*$ therefore $T \in B(V, W)$. 
+    We prove that $\mathcal{G}(T)$ is closed in $V \times W$, then apply the Closed graph theorem. Indeed, take a sequence $(x_n, Tx_n)$ converging $(x, y) \in V \times Y$. 
+    We want to show that $y = Tx$. Indeed, we have that $\forall S \in W^*$ 
+    $$\lim_{n \to \infty} S \circ T (x_n) = S \circ T (x) = \lim_{n \to \infty} S (Tx_n) = Sy$$
+    Therefore $S(Tx) = Sy$ and hence 
+    $$S(y - Tx) = 0, \quad \forall S \in W^*$$
+    By Hahn-Banach, we get that 
+    $$y - Tx = 0$$ 
+\end{example}
+
+
+
 \end{document}
