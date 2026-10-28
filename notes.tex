@@ -2557,11 +2557,25 @@ $$s_v = \set{x \in V \colon \norm{x} = 1}$$
 
 \begin{proof}
     \begin{enumerate}[label = \alph*)]
-        \item 
+        \item $\norm{x} = 1 \iff \abs{f(x)} \le 1 \ \forall f \in V^*, \ \norm{f} = 1$.  So we have that 
+        $$S_V = \bigcap_{\substack{f \in V^* \\ \norm{f} = 1}} f^{-1} \left(\overline{B_\F (0,1)}\right)$$
+        but $f \colon (V, \sigma(V, V^*)) \to \F$ is continuous $\forall f \in V^*$ so $f^{-1}(\overline{B}(0,1))$ is weakly closed for every $f$. 
+        So $S_V$ is weakly closed.
 
-        \item $S_V$ is weakly closed and $s_V \subseteq S_V$ then clearly 
+        \item $S_V$ is weakly closed and $s_V \subseteq S_V$ then clearly we have
         $$\overline{s_V}^w \subseteq S_V$$
-        Now take $x_0 \in S_V$, 
+        Now take $x_0 \in S_V$, consider $O_{x_0} (f_1, \cdots, f_n; \varepsilon) = \set{x \in V \colon \abs{f_i(x} - f_i(x_0) < \varepsilon, \ \forall i \in \set{1, \cdots, n}}$ a weakly open neighborhood of $x_0$. 
+        We claim that there exists $y_0 \ne 0 \in V$ s.t. $f_i(y_0) = 0$ for every $1 \le i \le n$. Indeed consider the map 
+        $$\phi \colon V \to \F^n, \quad x \to (f_1(x), f_2(x), \cdots, f_n(x))$$
+        Now if the claim was false then $\ker \phi = \set{0}$ so $\phi$ is injective, contradiction to $V$ being infinite dimensional. 
+        Let $x = x_0 + t x_0$, so $f_i(x) = f_i(x_0)$, which implies 
+        \begin{align*}
+            \abs{f_i(x) - f_i(x_0)} &= 0 
+        \end{align*}
+        So $x \in O_{x_0}( f_1, \cdots, f_n; \varepsilon)$, now $t \to \norm{x_0 + t y_0}$ is continuous, at $t = -$ we jave 
+        $\norm{x_0} \le 1$ and $\norm{x_0 + t y_0} \ge \abs{t} \norm{y_0} - \norm{x_0}$ so 
+        $$\lim_{t \to \infty} \norm{x_0 + t y_0} = \infty$$
+        So by IVT, $\exists t_0$ s.t. $\norm{x_0 + t_0 y_0} = 1$, so $x_0 + t y_0 \in O_{x_0} \cap s_v$.
 
         \item $B(0, 1) = S_V \cap s_v^c$ with 
         $$s_v^c = S_V^c \cup B(0,1)$$
@@ -2576,8 +2590,64 @@ $$s_v = \set{x \in V \colon \norm{x} = 1}$$
 \begin{proof}
     \begin{itemize}
         \item[$\implies$] if $V$ is infinite dimensional $B(0, 1)$ is open but not weakly open. 
-        \item[$\impliedby$]  
+        \item[$\impliedby$] Let $V$ be finite dimensional, we know that $\sigma(V, V^*) \subseteq \sigma_{\norm{\cdot}}$. Now consider $B(x_0, R)$, 
+        we just need that this is weakly open. But $V$ is finite dimensional, so there exists a basis $\set{V_1, \cdots, V_n}$ with $\norm{V_i} = 1$, $\forall x \in V$ we can write 
+        $$x = r_1 v_1 + \cdots + r_n v_n$$
+        Take $\pi_i \colon V \to \F$ s.t. $\pi_i(x) = r_i$, we want to find $\varepsilon > 0$ s.t. 
+        $$O_{x_0} (\pi_1, \cdots, \pi_n; \varepsilon) \subseteq B(x_0, R)$$
+        Now $x \in O_{x_0} (\pi_1, \cdots, \pi_n; \varepsilon)$ iff 
+        $$\abs{\pi_i(x) - \pi_i(x_0)} < \varepsilon \iff \norm{r_i - r_{i_0}} < \varepsilon$$
+        So we want 
+        \begin{align*}
+            \abs{x - x_0} &\le \abs{r_1 - r_{0,1}} + \cdots + \abs{r_n - r_{0,n}} \\
+            &< n \varepsilon 
+        \end{align*}
+        So choose $\varepsilon = \frac{R}{n}$.
     \end{itemize}
 \end{proof}
+
+\begin{lemma}
+    Take $\sigma(V_1, V_1^*) \times \sigma(V_2, V_2^*) = \sigma(V_1 \times V_2, (V_1 \times V_2)^*)$.  
+\end{lemma}
+
+
+\begin{proof}
+    Deferred.
+\end{proof}
+
+\begin{theorem}
+    $V_1, V_2$ normed space and $T \colon V_1 \to V_2$ is a strong-strong continuous linear transformation ($T \in B(V_1, V_2)$), 
+    then $T$ is weak-weak continuous. 
+    Moreover, if $V_1, V_2$ are Banach, then the converse is true. 
+\end{theorem}
+
+\begin{proof}
+    Recall that $f_\alpha \colon X \to (Y_\alpha, \tau_\alpha)$ and let $\tau$ be the coarsest topology on which $f_\alpha$ are continuous. 
+    Let $\psi \colon (Z, \tau_Z) \to (X, Z)$ continuous iff $f_\alpha \circ \psi$ continuous for every $\alpha \in I$ 
+    
+    \[
+        \begin{tikzcd}
+            Z \arrow[r, "\psi"] \arrow[dr, "f_\alpha \circ \psi"'] & X \arrow[d, "f_\alpha"] \\
+            & Y_\alpha
+        \end{tikzcd}
+    \]
+
+    I need to prove that $T \colon (V_1, \sigma(V_1, V_1^*)) \to (V_2, \sigma(V_2, V_2^*))$ is continuous. So in this case the diagram is 
+    \[
+        \begin{tikzcd}
+            (V_1, \sigma(V_1,V_1^*)) \arrow[r, "T"] \arrow[dr, "f \circ T"'] & (V_2, \sigma(V_2,V_2^*)) \arrow[d, "f"] \\
+            & \F
+        \end{tikzcd}
+    \]
+    So $T$ is weak-weak continuous iff $f \circ T \colon V_1 \to \F$ is continuous for all $f \in V_2^*$. But $f \circ T = T^* f \in V_1^*$, 
+    so by definition of $\sigma(V_1, V_1^*)$ we have that $f \circ T \colon V_1 \to V_2$ is weak-weak continuous.   
+
+    Now conversely suppose that $V_1, V_2$ is Banach and that the following map is weak-weak continuous
+    $$T \colon V_1 \to V_2$$
+    Now $\sigma(V_2, V_2^*)$ is Hausdorff, then $\mathcal{G}(T)$ is closed in $(V_1, \sigma(V_1, V_1^*)) \times (V_2, \sigma(V_2, V_2^*))$, 
+    so by the lemma it is closed in $\sigma(V_1 \times V_2, (V_1 \times V_2)^*)$ so $\mathcal{G}(T)$ is weakly closed in $V_1 \times V_2$, so it is norm-closed in 
+    $V_1 \times V_2$. Since $V_1, V_2$ Banach, by the closed graph theorem we have that $T$ is strong-strong continuous.
+\end{proof}
+
 
 \end{document}
