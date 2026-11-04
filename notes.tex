@@ -2616,9 +2616,7 @@ $$s_v = \set{x \in V \colon \norm{x} = 1}$$
 \end{proof}
 
 \begin{theorem}
-    $V_1, V_2$ normed space and $T \colon V_1 \to V_2$ is a strong-strong continuous linear transformation ($T \in B(V_1, V_2)$), 
-    then $T$ is weak-weak continuous. 
-    Moreover, if $V_1, V_2$ are Banach, then the converse is true. 
+    $V_1, V_2$ normed space and $T \colon V_1 \to V_2$ is a strong-strong continuous linear transformation ($T \in B(V_1, V_2)$) iff $T$ is weak-weak continuous. 
 \end{theorem}
 
 \begin{proof}
@@ -2642,12 +2640,184 @@ $$s_v = \set{x \in V \colon \norm{x} = 1}$$
     So $T$ is weak-weak continuous iff $f \circ T \colon V_1 \to \F$ is continuous for all $f \in V_2^*$. But $f \circ T = T^* f \in V_1^*$, 
     so by definition of $\sigma(V_1, V_1^*)$ we have that $f \circ T \colon V_1 \to V_2$ is weak-weak continuous.   
 
-    Now conversely suppose that $V_1, V_2$ is Banach and that the following map is weak-weak continuous
-    $$T \colon V_1 \to V_2$$
-    Now $\sigma(V_2, V_2^*)$ is Hausdorff, then $\mathcal{G}(T)$ is closed in $(V_1, \sigma(V_1, V_1^*)) \times (V_2, \sigma(V_2, V_2^*))$, 
-    so by the lemma it is closed in $\sigma(V_1 \times V_2, (V_1 \times V_2)^*)$ so $\mathcal{G}(T)$ is weakly closed in $V_1 \times V_2$, so it is norm-closed in 
-    $V_1 \times V_2$. Since $V_1, V_2$ Banach, by the closed graph theorem we have that $T$ is strong-strong continuous.
+    Now conversely suppose that $T$ Is not norm-norm continuous, i.e. $T \not\in B(V_1, V_2)$ then $T$ is not continuous at $0$. So $\exists \varepsilon_0 > 0$ s.t. 
+    for every $\delta > 0$ we can find $x_\delta$ s.t. $\norm{x_\delta} < \delta$ and $\norm{Tx_\delta} \ge \varepsilon_0$. 
+    Therefore $\exists y_n$ s.t. 
+    $$\norm{y_n} < \frac{1}{n^2} \text{ and } \norm{T y_n} \ge \varepsilon_0$$
+    Now let $x_n = n y_n$, so $\norm{x_n} < \frac{1}{n}$ and $\norm{Tx_n} \ge \varepsilon_0 n$. Now $x_n \to 0$ then $x_n \wto 0$ but $T$ is weak-weak continuous. 
+    Therefore $T x_n \to T0 = 0$. So $Tx_n$ is norm bounded in $V_2$, contradiction. 
 \end{proof}
 
+\subsection{Weak* Topology}
+
+Let $V$ be a normed space and $V^*$ its dual. We have
+\begin{itemize}
+    \item The norm topology on $V^*$: $\norm{f} = \sup_{\substack{x \in V \\ \norm{x} = 1}} \abs{f(x)}$. 
+    \item The Weak topology on $V^*$: $\sigma(V^*, V^{**})$ which is the smallest topology for which every $\xi \in V^{**}$ is continuous.
+    \item The \emph{Weak* topology} on $V^*$: $\sigma(V^*, V)$ which is the coarsest topology under which every map $Jx \in J(V)$ is continuous.
+\end{itemize}
+
+\textbf{Consequences} 
+
+\begin{itemize}
+    \item $f_n$ weakly star converges to $f$ (denoted $f_n \overset{*}{\wto} f$) iff $Jx(f_n) \to Jx(f) \ \forall x \in V$ iff $f_n(x) \to f(x)$ in $\F$ for every $x \in V$.
+    \item $\sigma(V^*, V) \subseteq \sigma(V^*, V^**) \subseteq \tau_{\norm{\cdot}}$, moreover if $V$ is reflexive we have that $J(V) = V^{**}$ therefore 
+    $$\sigma(V^*, V) = \sigma(V^*, V^{**})$$
+    \item If $f_n \to f$ or $f_n \wto f$ then $f_n \overset{*}{\wto} f$. 
+    \item If $V$ is Banach and $f_n \overset{*}{\wto} f$ then $f_n$ is norm bounded and $\norm{f} \le \liminf \norm{f_n}$. 
+    \item If $f_n \overset{*}{\wto} f$ and $x_n \to x$ (or $x_n \wto x$) then $f_n(x_n) \to f(x)$.  
+    \item The local basis of the weak* topology is 
+    $$O_{f_0} (x_1, \cdots, x_n; \varepsilon) = \set{f \in V^* \colon \abs{f(x_i) - f(x_i)} < \varepsilon \ \forall i \in \set{1, \cdots, n}}$$
+    Particularly, if $f_0 = 0$ we get that 
+    \begin{align*}
+        O_0 (x_1, \cdots, x_n; \varepsilon) *&= \set{f \in V^* \colon \abs{f(x_i)} < \varepsilon}
+    \end{align*}
+    So we have that 
+    $$\bigcap_{i=1}^n \ker (J_{x_i}) \subseteq O_0(x_1, \cdots, x_n; \varepsilon)$$
+    (a $\varepsilon$ around $\bigcap \ker x_i$). In general we have have 
+    $$f_0 + \bigcap \ker J_{x_i} \subseteq O_{f_0} (x_1, \cdots, x_n; \varepsilon)$$
+\end{itemize}
+
+\begin{proposition}
+    $\sigma(V^*, V)$ is Hausdorff. 
+\end{proposition}
+
+\begin{proof}
+    Let $f_1, f_2 \in V^*$ s.t. $f_1 \ne f_2$, so $\exists x_0 \in V$ s.t. $f_1(x_0) \ne f_2(x_0)$. Then we take $\delta = \abs{f_1(x_0) - f_2(x_0)}$, 
+    then we take the open sets to be $O_{f_1} (x_0; \delta/2)$ and $O_{f_2} (x_0; \delta/2)$ which are two disjoint (weak*) open neighborhoods of $f_1$ and $f_2$. 
+\end{proof}
+
+\begin{lemma}[Linear Algebra Lemma]
+    Let $V$ be a vector space over $\F$ ($\R$ or $\C$) and $\varphi_1, \cdots, \varphi_n \colon V \to \F$ linear and $\psi \colon V \to \F$ linear s.t. 
+    $$\bigcap_{i=1}^n \ker \varphi_i \subseteq \ker \psi$$
+    iff 
+    $$\psi \in \Span \set{\varphi_1, \cdots, \varphi_n}$$
+\end{lemma}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\impliedby$] easy. 
+        \item[$\implies$] Take $\Phi \colon V \to \F^{n+1}$, defined by 
+        $$\Phi(x) = (\varphi_1(x), \cdots, \varphi_n(x), \psi(x))$$
+        Then $e_{n+1} \not\in \operatorname{Range}(\Phi)$ with $\operatorname{Range} \Phi$ subspace of $\F^{n+1}$. Also $\exists \ell \colon \F^{n+1} \to \F$ s.t. 
+        $\ell(\operatorname{Range} (\Phi)) = 0$ and $\ell(e_{n+1}) = 1$. Then clearly we have 
+        $$\ell(\varphi_1(x), \cdots, \varphi_n(x), \psi(x)) = 0, \quad \forall x \in V$$
+        i.e. we have that 
+        $$\varphi_1(x) \ell(e_1) + \cdots + \varphi_n(x) \ell(e_n) + \psi(x) \ell(e_{n+1}) = 0$$
+        This means that 
+        $$\psi (x) \in \operatorname{Span} (\varphi_1, \cdots, \varphi_n)$$  
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}
+    $\xi \colon (V^*, \sigma(V^*, V)) \to \F$ is continuous then $\xi \in J(V)$.  
+\end{theorem}
+
+\begin{corollary}
+    $\sigma(V^*, V) = \sigma(V^*, V^{**}) \iff V$ is reflexive.
+\end{corollary}
+
+\begin{proof}
+    If $\xi \colon (V^*, \sigma(V^*, V)) \to \F$ is continuous. Then $A = \set{f \in V^*, \abs{\xi(f)} < 1}$ is weak* open and contains $0$. So we can find some $x_1, \cdots x_n \in V$ and $\varepsilon > 0$ 
+    s.t. 
+    $$O := O_0(x_1, \cdots, x_n; \varepsilon) \subseteq A$$
+    This means that if $f \in \bigcap \ker J x_i \implies f \in O \subseteq A$, i.e. 
+    $$\abs{\xi (f)} < 1$$
+    But if $f \in \bigcap \ker J x_i$, this means that $t f \in \bigcap J x_i$ for any $t \in \R$, but this means that $\forall t > 0$ we have
+    \begin{align*}
+        \abs{\xi (tf)} &< 1 \\
+        \abs{\xi(f)} &< 1/t
+    \end{align*}
+    Therefore $\xi (f) = 0$ which implies $f \in \ker \xi$. Therefore 
+    $$\bigcap \ker J x_i \subseteq \ker \xi$$
+    Therefore by the lemma $\xi \in \Span \set{Jx_1, \cdots, Jx_n}$, therefore 
+    $$\xi = J(c_1 x_1 + \cdots + c_n x_n)$$
+\end{proof}
+
+\begin{theorem}[Banach Alaoglu Theorem]
+    $V$ normed space, then $S_{V^*} = \set{f \in V^* \colon \norm{f}_* \le 1}$ is weakly star compact.
+\end{theorem}
+
+\begin{remark}
+    $V$ normed space, then $\F^V = \prod_{x \in V} \F = \set{f \colon V \to \F}$. The product topology is the smallest topology for which all $\pi_x \colon \F^V \to \F$ are continuous. 
+    Therefore $V^* \subseteq \F^V$ and $(\pi_{x})_{|V^*} = Jx$. 
+\end{remark}
+
+\begin{proof}
+    \textbf{Step 1.} $\sigma(V^*, V)$ is the product topology restricted to $V^*$. i.e. $O$ is weakly* open iff 
+    $$O = U \cap V^*, \quad \text{$U$ open in $\F^V$}$$
+    This is because $O$ weakly* open iff there exists $\omega_i$'s open in $\F$ with  
+    \begin{align*}
+        O &= \bigcup_{\text{arb}} \bigcap_{i=1}^n (J {x_i})^{-1} (\omega_i) \\ 
+    \end{align*}
+    but $f \in (Jx_i)^{-1} (\omega_i) \iff (Jx_i) (f) \in \omega_i \iff f(x_i) \in \omega_i \iff \pi_{x_i} (f) \in \omega_i$, so 
+    $$O = \bigcup_{\text{arb}} \bigcap_{i=1}^n \pi_{x_i}(\omega_i)^{-1} (\omega_i) \cap V^*$$
+
+    \textbf{Step 2.} $\mathcal{L}(V, \F)$ closed in $\F^V$. Take 
+    \begin{align*}
+        f \in \mathcal{L}(V, \F) &\iff f(x+ \alpha y) = f(x) + \alpha f(y) \ \forall x, y \in V, \ \forall \alpha \in \F \\
+        &\iff \pi_{x + \alpha y} (f) - \pi_x(f) - \alpha \pi_y(f) = 0 \\
+        &\iff (\pi_{x + \alpha y} - \pi_x - \alpha \pi_y) (f) = 0 \\
+        &\iff f \in (\pi_{x + \alpha y} - \pi_x - \alpha \pi_y)^{-1} (\set{0}) \\
+        &\iff f \in \bigcap_{x, y \in V, \ \alpha \in \F} (\pi_{x + \alpha y} - \pi_x - \alpha \pi_y)^{-1} (\set{0})
+    \end{align*} 
+    but all projections are continuous, as desired. 
+
+    \textbf{Step 3.} $S_{V^*}$ is compact in the product topology. Indeed
+    \begin{align*}
+        f \in S_{V^*} &\iff f \in \mathcal{L}(V, \F) \text{ and } \abs{f(x)} \le \norm{x} \ \forall x \in V \\
+        &\iff f \in \mathcal{L}(V, \F) \text{ and } \pi_x(f) \in \overline{B_\F(0, \norm{x})} \ \forall x \in V \\
+        &\iff f \in \mathcal{L}(V, f) \cap  \left(\prod_{x \in V} \overline{B(0, \norm{x})}\right)
+    \end{align*}
+    but $\pi_{x \in V} \overline{B(0, \norm{x})}$ is compact by Tychonoff's theorem, therefore $S_{V^*}$ is compact. 
+\end{proof}
+
+\begin{corollary}[Heine-Borel]
+    $V$ normed space $K$ is weakly* closed and norm bounded then $K$ is weak* compact. 
+    The converse is true if $V$ is Banach. 
+\end{corollary}
+
+\begin{proof}
+    \begin{itemize}
+        \item[$\implies$] $K$ is norm bounded, then $\exists M$ s.t. 
+        $$K \subseteq \set{f \in V^* \colon \norm{f}_* \le M} = M S_{V^*}$$
+        But $K$ is weakly* closed and $MS_{V^*}$ is weakly* compact. Then $K$ is compact. 
+
+        \item[$\impliedby$] $K$ is weak* is compact and $\sigma(V^*, V)$ is Hausdorff, then $K$ is weak* closed. Moreover 
+        $(Jx) (K)$ is compact in $\F$, since $Jx$ is continuous, therefore $(Jx)(K)$ is bounded. i.e. for every $f \in K$ we have that $(Jx)(f) = f(x)$ is bounded, 
+        and $V$ is Banach so by uniform boundedness principle we have that $K$ is bounded. 
+    \end{itemize} 
+\end{proof}
+
+\begin{remark}
+    Note that this doesn't give us weakly sequentially compact. In fact we have that $S_{(\ell^\infty)^*}$ is not weakly sequentially compact.
+\end{remark}
+
+\begin{example}
+    In the homework we show that $e_n$ doesn't converge weakly in $\ell^1$ and in the midterm we show that $c_0^* \cong \ell^1$ by $b \in \ell^1 \to (x \to \sum x_n b_n)$. So if $b = e_n$, 
+    we have that $f_{e_n} (x) = \pi_n(x) = x_n$. Therefore $\pi_n$ does not converge weakly in $c_0^*$.  But for $x \in c_0$ we have that 
+    $$\pi_n(x) = x_n \to 0$$
+    Therefore $\pi_n \overset{*}{\wto} 0$. 
+\end{example}
+
+\begin{corollary}
+    $V$ reflexive space, then $S_V$ is weakly compact. 
+\end{corollary}
+
+\begin{proof}
+    Take $J \colon V \to V^{**}$ an isomorphism, therefore 
+    $$S_V = J^{-1}(S_{V^{**}})$$
+    But $J^{-1}$ is norm-norm continuous, therefore it is weak-weak continuous. So it is enough to show that $S_{V^{**}}$ is weakly compact. By Banach Alaoglu, we have that 
+    $S_V^{**}$ is weak* compact, but $V^{**}$ is reflexive, since $V$ is reflexive. Therefore $S_V^{**}$ is weakly compact. 
+\end{proof}
+
+\textbf{Issue with sequential compactness.} Look at $S_{\ell^\infty}^*$ which is weak* compact. Now take 
+$$\pi_n \colon \ell^\infty \to \F \in (\ell^\infty)^* , \quad \pi_n(x) = x_n$$
+clearly we have that $\norm{\pi_n} \le 1$. So now let $\pi_{n_k}$ subsequence of $\pi_n$, and consider 
+$$x_n = \begin{cases}
+    (-1)^k \quad &n = n_k \\
+    0 \quad & n \ne n_k
+\end{cases}$$
+Therefore $\pi_{n_k} = (-1)^k$ doesn't converge. 
 
 \end{document}
