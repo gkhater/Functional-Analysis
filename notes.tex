@@ -2820,4 +2820,144 @@ $$x_n = \begin{cases}
 \end{cases}$$
 Therefore $\pi_{n_k} = (-1)^k$ doesn't converge. 
 
+\section*{Hilbert Spaces}
+
+\begin{definition}
+    $V$ is a vector space over $\F$. An inner product $\angles{\cdot, \cdot}$ is a map $\angles{\cdot, \cdot} \colon V \times V \to \F$ satisfying the following 
+    \begin{enumerate}[label = \roman*)]
+        \item \textbf{Left linearity.} $\angles{x + \alpha y, z} = \angles{x, z} + \alpha \angles{y,z}$ 
+        \item \textbf{Skew-Symmetry.} $\angles{x,y} = \overline{\angles{y,x}}$
+        \item \textbf{Positive definiteness.} $\angles{x, x} \ge 0$ with equality iff $x = 0$.
+    \end{enumerate} 
+    We say that $(V, \angles{\cdot, \cdot})$ is an inner product.
+\end{definition}
+
+\begin{definition}
+    Given an inner product space, we define: 
+    $$\norm{\cdot} \colon V \to \R$$ 
+    as follows, 
+    $$\norm{x} = \sqrt{\angles{x, x}}$$
+\end{definition}
+
+\begin{remark}
+    Notice that we have 
+    \begin{itemize}
+        \item $\angles{x, y+z} = \angles{x, y} + \angles{x, z}$.
+        \item $\angles{x, \alpha y} = \overline{\alpha} \angles{x, y}$. 
+        \item $\angles{0, y} = 0 = \angles{y, 0}$.
+        \item $\norm{x} \ge 0$ for every $x \in V$ with equality iff $x = 0$ and $\norm{\alpha x} = \abs{\alpha} \norm{x}$. 
+    \end{itemize}    
+\end{remark}
+
+\begin{definition}
+    Let $(V, \angles{\cdot, \cdot})$ be an inner product space. We say that: 
+    \begin{itemize}
+        \item $x, y \in V$ are orthogonal iff $\angles{x, y} = 0$.
+        \item $S \subseteq V$ we say that $S$ is an orthogonal set iff $\angles{x, y} = 0$ $\forall x, y \in S$ with $x \ne y$. If in addition we have that 
+        $\norm{x} = 1$ for every $x \in S$, we say that $S$ is an orthonormal set. 
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    If $S$ is an orthogonal set not containing zero, then $S$ is L.I. 
+\end{proposition}
+
+\begin{proof}
+    Suppose that $r_1 x_1 + \cdots + r_n x_n = 0$ with $r_i \in \F$ and $x_i \in S$, take the inner product with $x_i$ we get 
+    $$r_i \norm{x_i} = 0 \iff r_i = 0, \quad \forall i \in \set{1, \cdots, n}$$
+\end{proof}
+
+\begin{proposition}[Paralellogram Law]
+    $V$ inner product space, then 
+    $$\norm{x + y}^2 + \norm{x-y}^2 = 2 \norm{x}^2 + 2 \norm{y}^2 \ \forall x,y \in V$$
+\end{proposition}
+
+\begin{proof}
+    \begin{align*}
+        \norm{x+y}^2 &= \angles{x+y, x+y} \\
+        &= \angles{x,x} + \angles{x, y} + \angles{y,x} + \angles{y,y} \\
+        &= \norm{x}^2 + 2 \Re \angles{x,y} + \norm{y}^2 
+    \end{align*}
+    Therefore 
+    \begin{align*}
+        \norm{x-y}^2 &= \norm{x}^2 - 2 \Re \norm{x,y} + \norm{y}^2
+    \end{align*}
+    Take the sum of both.
+\end{proof}
+
+\begin{proposition}[Pythagorian Theorem]
+    If $x, y$ are orthogonal, then 
+    $$\norm{x + y}^2 = \norm{x} + \norm{y}$$
+    Recursively, if $S = \set{x_1, \cdots, x_N}$ is an orthogonal set, then 
+    $$\norm{\sum_{n=1}^N x_n}^2 = \sum_{n=1}^N \norm{x_n}^2$$
+\end{proposition}
+
+\begin{theorem}
+    Let $S = \set{x_n}_{n \in \N}$ be a countable orthonormal subset of an inner product space $V$ and take $x \in V$. Then 
+    $$\norm{x}^2 = \sum_{n=1}^N \abs{\angles{x, x_n}}^2 + \norm{x - \sum_{n=1}^N \angles{x, x_n} x_n}^2$$
+    And so 
+    $$\norm{x}^2 \ge \sum_{n=1}^\infty \abs{\angles{x, x_n}}$$
+    This is Bessel's inequality.
+\end{theorem}
+
+\begin{proof}
+    Write 
+    $$x = \sum_{n=1}^N \angles{x, x_n} x_n + (x - \sum_{n=1}^N \angles{x, x_n} x_n)$$
+    verify that these are orthogonal, apply Pythagorian theorem twice. 
+\end{proof}
+
+\begin{corollary}[Cauchy Schwartz]
+    $$\abs{x,y} \le \norm{x} \cdot \norm{y}$$
+\end{corollary}
+
+\begin{proof}
+    If $x = 0$ or $y = 0$ done. Else take $S = \set{\frac{y}{\norm{y}}}$, an orthonormal set. Apply Bessel's inequality, we get 
+    \begin{align*}
+        \abs{\angles{x, y/\norm{y}}}^2 &\le \norm{x}^2 \\
+        \abs{\angles{x, y}} \le \norm{x} \cdot \norm{y}
+    \end{align*} 
+\end{proof}
+
+\begin{corollary}
+    $V$ inner product space, then $\norm{x} = \sqrt{\angles{x, x}}$ is a norm.
+\end{corollary}
+
+\begin{proof}
+    \begin{align*}
+        \norm{x + y}^2 &= \norm{x}^2 + \norm{y}^2 + 2 \Re \angles{x, y} \\
+        &\le \norm{x} + \norm{y}^2 + 2 \norm{x} \cdot \norm{y} \\
+        &= (\norm{x} + \norm{y})^2
+    \end{align*}
+\end{proof}
+
+\begin{example}
+    Take $\ell^2(\C)$ the space of sequence s.t. $\sum \abs{x_n}^2 < \infty$, take the inner product 
+    $$\angles{x, y} = \sum_{n=1}^\infty x_n \overline{y_n}$$
+    Which induces a norm 
+    $$\norm{x} = \sqrt{\angles{x, x}} = \sqrt{\sum_{n=1}^\infty \abs{x_n}^2}$$
+    Therefore the $\ell^2$ is an inner product norm.    
+
+    For $p \ne 2$, the $\ell^p$ norm is not an inner product norm
+    $$x = (1, 0, \cdots), \quad y = (0,1, 0, \cdots)$$
+
+    \begin{itemize}
+        \item for $p = \infty$ we have that this breaks Parallelogram law.
+
+        \item for $p \ne \infty$ take 
+        Then we have
+        \begin{align*}
+            \norm{x} &= 1 \\
+            \norm{y} &= 1 \\
+            \norm{x+y} &= 2^{1/p} \\
+            \norm{x-y} &= 2^{1/p}
+        \end{align*}
+        Then Parallelogram law holds only if $p = 2$.
+    \end{itemize}
+\end{example}
+
+\begin{remark}
+    Parallelogram law is really our "geometry" here, in fact it can be shown that if a norm respects the Parallelogram law then it is an inner product norm.
+\end{remark}
+
+
 \end{document}
